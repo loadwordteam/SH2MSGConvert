@@ -25,3 +25,6 @@ parser.add_argument('--output', '-o', dest='output', type=str,
 
 parser.add_argument('--table', '-t', dest='table', type=str,
                     help='define alternate table')
+
+parser.add_argument('--table-jap', '-j', dest='table_jap', action='store_true',
+                    help='use the Japanese table')

@@ -3,7 +3,7 @@
 block_cipher = None
 
 a = Analysis(['sh2msg/__main__.py'],
-             datas=[ ('./sh2msg/table/data/table.txt', './sh2msg/table/data/') ],
+             datas=[ ('./sh2msg/table/data/*.txt', './sh2msg/table/data/') ],
              pathex=['.'],
              binaries=[],
              hiddenimports=['sh2msg'],

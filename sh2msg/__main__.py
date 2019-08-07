@@ -30,7 +30,10 @@ if __name__ == '__main__':
     flip = bool(message.suffix == '.txt')
 
     if args.table is None:
-        table = sh2msg.table.load_default_table(flip=flip)
+        if args.table_jap:
+            table = sh2msg.table.load_jap_table(flip=flip)
+        else:
+            table = sh2msg.table.load_default_table(flip=flip)
     else:
         table = sh2msg.table.read_table_file(args.table, flip=flip)
 

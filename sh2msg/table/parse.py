@@ -17,7 +17,7 @@
 import collections
 import io
 import string
-from sh2msg.table import DEFAULT_TABLE_PATH
+from sh2msg.table import DEFAULT_TABLE_PATH, JAP_TABLE_PATH
 
 
 class TableException(Exception):
@@ -69,3 +69,7 @@ def read_table_file(path, flip=False, encoding="utf-8-sig"):
 
 def load_default_table(flip=False, encoding="utf-8-sig"):
     return read_table_file(DEFAULT_TABLE_PATH, flip=flip, encoding=encoding)
+
+
+def load_jap_table(flip=False, encoding="utf-8-sig"):
+    return read_table_file(JAP_TABLE_PATH, flip=flip, encoding=encoding)
