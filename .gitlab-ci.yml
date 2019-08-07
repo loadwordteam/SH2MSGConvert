@@ -3,24 +3,27 @@ before_script:
   - echo "COMMIT_REF='${CI_COMMIT_SHA:0:8}'\n" >> sh2msg/cli/version.py
 
 
-linux-build:
+linux-amd64:
   stage: build
   image: python:3.7.1-stretch
   artifacts:
     name: "${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA:0:8}-linux-amd64"
     paths:
-      - dist/sh2msg
+      - sh2msg-linux-amd64/*
   script:
     - pip3 install pyinstaller -q
     - pyinstaller sh2msg.spec
+    - cp README.md dist/
+    - cp COPYING dist/
+    - mv dist sh2msg-linux-amd64
 
-win32-build:
+win32-i386:
   image: ubuntu:latest
   stage: build
   artifacts:
     name: "${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA:0:8}-windows-i386"
     paths:
-      - dist/sh2msg.exe
+      - sh2msg-win32/*
   script:
     # - dnf update -y
     - dpkg --add-architecture i386
@@ -35,4 +38,7 @@ win32-build:
     - wine msiexec /i python-3.4.2.msi /qb TARGETDIR=C:/Python342;
     - wine C:/Python342/python.exe -m ensurepip --upgrade
     - wine C:/Python342/python.exe -m pip install pyinstaller
-    - wine C:/Python342/scripts/pyinstaller.exe sh2msg.spec
+    - wine C:/Python342/scripts/pyinstaller.exe sh2msg.spec#
+    - cp README.md dist/
+    - cp COPYING dist/
+    - mv dist sh2msg-win32
