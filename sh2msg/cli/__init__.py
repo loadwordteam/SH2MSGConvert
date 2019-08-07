@@ -14,16 +14,4 @@
 #  You should have received a copy of the GNU General Public License
 #  along with sh2msg-convert.  If not, see <http://www.gnu.org/licenses/>.
 
-from sh2msg.table import read_table_file
-from sh2msg.table import parse_table
-
-from sh2msg.mes_format import check_mes_structure
-
-from sh2msg.table import TableException
-from sh2msg.mes_format import MesFormatException
-from sh2msg.mes_format import MesNotValid
-
-from sh2msg.dump import dump_container, read_container
-from sh2msg.insert import pack_container
-
-VERSION_NUMBER = '1.0beta'
+from sh2msg.cli.parse import parser

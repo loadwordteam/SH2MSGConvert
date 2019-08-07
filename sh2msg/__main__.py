@@ -19,11 +19,11 @@ import pathlib
 from sh2msg import pack_container
 from sh2msg import dump_container
 import sh2msg.table
-from sh2msg import cli
+from sh2msg.cli import parse
 from sh2msg import check_mes_structure
 
 if __name__ == '__main__':
-    args = cli.parser.parse_args()
+    args = parse.parser.parse_args()
 
     message = pathlib.Path(args.filename)
     table = None

@@ -14,16 +14,26 @@
 #  You should have received a copy of the GNU General Public License
 #  along with sh2msg-convert.  If not, see <http://www.gnu.org/licenses/>.
 
-from sh2msg.table import read_table_file
-from sh2msg.table import parse_table
 
-from sh2msg.mes_format import check_mes_structure
+from setuptools import setup, find_packages
 
-from sh2msg.table import TableException
-from sh2msg.mes_format import MesFormatException
-from sh2msg.mes_format import MesNotValid
+from sh2msg import VERSION_NUMBER
 
-from sh2msg.dump import dump_container, read_container
-from sh2msg.insert import pack_container
+with open('README.rst') as f:
+    readme = f.read()
 
-VERSION_NUMBER = '1.0beta'
+with open('COPYING') as f:
+    license = f.read()
+
+setup(
+    name='sh2msg',
+    version=VERSION_NUMBER,
+    description='sh2msg-convert is for editing text files for Silent Hill 2 game',
+    long_description=readme,
+    author='Gianluigi "Infrid" Cusimano, Víctor "IlDucci" González',
+    author_email='infrid@infrid.com',
+    url='https://gitlab.com/sh2msgconvert',
+    license=license,
+    packages=find_packages(exclude=('test', 'docs')),
+    install_requires=[],
+)
