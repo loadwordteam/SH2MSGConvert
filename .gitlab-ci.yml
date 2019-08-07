@@ -38,7 +38,7 @@ win32-i386:
     - wine msiexec /i python-3.4.2.msi /qb TARGETDIR=C:/Python342;
     - wine C:/Python342/python.exe -m ensurepip --upgrade
     - wine C:/Python342/python.exe -m pip install pyinstaller
-    - wine C:/Python342/scripts/pyinstaller.exe sh2msg.spec#
+    - wine C:/Python342/scripts/pyinstaller.exe sh2msg.spec
     - cp README.md dist/
     - cp COPYING dist/
     - mv dist sh2msg-win32
