@@ -23,7 +23,7 @@ from sh2msg.table import TableException
 from sh2msg.mes_format import MesFormatException
 from sh2msg.mes_format import MesNotValid
 
-from sh2msg.dump import dump_container, read_container
-from sh2msg.insert import pack_container
+from sh2msg.dump import dump_container, read_container, filter_clean_dump
+from sh2msg.insert import pack_container, filter_cleaned_text
 
 VERSION_NUMBER = '1.0beta'

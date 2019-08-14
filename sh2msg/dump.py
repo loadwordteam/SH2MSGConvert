@@ -16,13 +16,26 @@
 
 import pathlib
 import os
+import re
 
 
 class MesDumpException(Exception):
     pass
 
 
-def read_container(path, table={}):
+def filter_clean_dump(text):
+    cleaner = re.compile(r'(?:<SEPARATORA>)?(.+?)(?:<STRING-END>)?(?:\B)?(?:<SEPARATORA>)(<SEPARATORB>)?')
+
+    output = []
+    for line in text:
+        for string, separator_b in cleaner.findall(line):
+            tmp_line = string.strip + separator_b
+            tmp_line = tmp_line.replace("<NEWLINE>", "\n\t ")
+            output.append(tmp_line)
+    return "\n".join(output)
+
+
+def read_container(path, table={}, cleanMode=False):
     path = pathlib.Path(path)
     if not path.is_file():
         raise MesDumpException('Cannot read {}'.format(path.resolve()))

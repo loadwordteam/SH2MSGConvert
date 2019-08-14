@@ -22,6 +22,7 @@ from .context import TEST_DATA_DIR
 
 from sh2msg import pack_container
 from sh2msg.table.parse import load_default_table
+from sh2msg.insert import filter_cleaned_text
 
 
 class BasicEncoding(unittest.TestCase):
@@ -35,9 +36,6 @@ class BasicEncoding(unittest.TestCase):
             load_default_table(flip=True)
         )
 
-        hash_inserted = None
-        hash_test = None
-
         with open(os.path.join(TEST_DATA_DIR, 'dante_ok.mes'), 'rb') as test_mes:
             temp_mes.seek(0)
             print(len(temp_mes.read()))
@@ -48,3 +46,13 @@ class BasicEncoding(unittest.TestCase):
         temp_mes.close()
         self.assertFalse(os.path.exists(temp_mes.name))
         self.assertEqual(hash_inserted.hexdigest(), hash_test.hexdigest())
+
+
+class TestCleanDumpFilter(unittest.TestCase):
+    def test(self):
+        sample = None
+        with open(os.path.join(TEST_DATA_DIR, 'leopardi.txt'), mode='r', newline="\n") as leo:
+            sample = leo.read()
+        print(sample)
+        print()
+        print(filter_cleaned_text(sample))

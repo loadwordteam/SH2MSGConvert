@@ -36,3 +36,4 @@ class TestBasicDump(unittest.TestCase):
             dante_text = [x.rstrip() for x in dante.readlines()]
 
         self.assertEqual(mes_data, dante_text)
+

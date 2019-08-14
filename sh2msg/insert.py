@@ -14,19 +14,47 @@
 #  You should have received a copy of the GNU General Public License
 #  along with sh2msg-convert.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
 import struct
+import re
 
 
 class MesInsertException(Exception):
     pass
 
 
+def filter_cleaned_text(lines):
+    """This function expects lines to be a multiline string, the newline char assumed
+    is \n, the conversion from Windows/Mac style can be done during the file read!"""
+
+    newline_re = re.compile(r'^[\t ]+(.*)')
+    output = []
+    for line in lines.split("\n"):
+        if line.startswith('--') or not line.strip():
+            continue
+        newline = newline_re.findall(line)
+        if newline:
+            for find in newline:
+                output.append("<NEWLINE>" + find.rstrip())
+        else:
+            output.append(line.rstrip())
+
+    output = "\n".join(output).replace("\n<NEWLINE>", "<NEWLINE>")
+
+    output = [
+        "<SEPARATORA>{0}<STRING-END>{1}".format(
+            x.replace('<SEPARATORB>', ''),
+            '<SEPARATORB>' if x.endswith('<SEPARATORB>') else '<SEPARATORA>'
+        ) for x in output.split("\n")
+    ]
+
+    return "\n".join(output)
+
+
 def pack_container(path_mes, path_txt, table, encoding="utf-8-sig"):
     with open(path_mes, 'bw') as container, open(path_txt, "r", encoding=encoding) as text:
         binary_lines = []
         for line_number, line in enumerate(text.readlines()):
-            string = line.strip('\n')
+            string = line.rstrip()
             if string:
                 full_string_len = len(string)
                 encoded_pairs = []
@@ -53,7 +81,7 @@ def pack_container(path_mes, path_txt, table, encoding="utf-8-sig"):
                     last_value, last_code = encoded_pairs[-1]
                     if last_value[0] == '<' and last_value[-1] == '>':
                         encoded_pairs[-1] = (' ', b'\x00')
-                        encoded_pairs.append( (last_value, last_code) )
+                        encoded_pairs.append((last_value, last_code))
                     else:
                         encoded_pairs.append((' ', b'\x00'))
 
