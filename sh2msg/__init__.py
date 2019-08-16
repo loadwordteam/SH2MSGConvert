@@ -26,4 +26,4 @@ from sh2msg.mes_format import MesNotValid
 from sh2msg.dump import dump_container, read_container, filter_clean_dump
 from sh2msg.insert import pack_container, filter_cleaned_text
 
-VERSION_NUMBER = '1.0beta'
+VERSION_NUMBER = '1.1beta'

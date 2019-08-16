@@ -24,18 +24,15 @@ class MesDumpException(Exception):
 
 
 def filter_clean_dump(text):
-    cleaner = re.compile(r'(?:<SEPARATORA>)?(.+?)(?:<STRING-END>)?(?:[ \t]+)?(?:<SEPARATORA>)(<SEPARATORB>)?')
+    cleaner = re.compile(r'(?:<SEPARATORA>)?(.+?)(?:<STRING-END>)?(?:<SEPARATORA>)(<SEPARATORB>)?')
 
-    output = []
-    for line in text:
-        for string, separator_b in cleaner.findall(line):
-            tmp_line = string.strip + separator_b
-            tmp_line = tmp_line.replace("<NEWLINE>", "\n\t ")
-            output.append(tmp_line)
+    output = [
+        (cleaner.sub(r'\1\2', line)).replace("<NEWLINE>", "\n\t ") for line in text.split("\n")
+    ]
     return "\n".join(output)
 
 
-def read_container(path, table={}, clean_mode=False):
+def read_container(path, table={}, clean_mode=True):
     path = pathlib.Path(path)
     if not path.is_file():
         raise MesDumpException('Cannot read {}'.format(path.resolve()))

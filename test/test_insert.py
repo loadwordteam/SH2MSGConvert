@@ -20,12 +20,12 @@ import os
 import hashlib
 from .context import TEST_DATA_DIR
 
-from sh2msg import pack_container
+from sh2msg import pack_container, read_container
 from sh2msg.table.parse import load_default_table
 from sh2msg.insert import filter_cleaned_text
 
 
-class BasicEncoding(unittest.TestCase):
+class BasicEncodingClean(unittest.TestCase):
 
     def test(self):
         temp_mes = tempfile.NamedTemporaryFile(prefix='sh2mgs_test_')
@@ -33,12 +33,36 @@ class BasicEncoding(unittest.TestCase):
         pack_container(
             temp_mes.name,
             os.path.join(TEST_DATA_DIR, 'dante.txt'),
-            load_default_table(flip=True)
+            load_default_table(flip=True),
+            clean_mode=True
+        )
+
+        with open(os.path.join(TEST_DATA_DIR, 'dante.txt'), 'r') as dante_f:
+            mes_data = read_container(
+                temp_mes.name,
+                load_default_table()
+            )
+            dante_text = dante_f.read()
+            dante_text = "\n".join([line.rstrip() for line in dante_text.split("\n")])
+            mes_data = "\n".join([line.rstrip() for line in dante_text.split("\n")])
+            self.assertEqual(dante_text, mes_data)
+
+        temp_mes.close()
+
+
+class BasicEncodingNoClean(unittest.TestCase):
+
+    def test(self):
+        temp_mes = tempfile.NamedTemporaryFile(prefix='sh2mgs_test_')
+
+        pack_container(
+            temp_mes.name,
+            os.path.join(TEST_DATA_DIR, 'dante.txt'),
+            load_default_table(flip=True),
+            clean_mode=False
         )
 
         with open(os.path.join(TEST_DATA_DIR, 'dante_ok.mes'), 'rb') as test_mes:
-            temp_mes.seek(0)
-            print(len(temp_mes.read()))
             temp_mes.seek(0)
             hash_inserted = hashlib.sha256(temp_mes.read())
             hash_test = hashlib.sha256(test_mes.read())

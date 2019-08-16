@@ -56,11 +56,10 @@ def filter_cleaned_text(text_data):
         ) for x in output
     ]
 
-
     return "\n".join(output)
 
 
-def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=False):
+def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=True):
     with open(path_mes, 'bw') as container, open(path_txt, "r", encoding=encoding) as text_data:
         binary_lines = []
         text_data = text_data.read()
