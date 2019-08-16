@@ -27,6 +27,7 @@ def filter_cleaned_text(lines):
     is \n, the conversion from Windows/Mac style can be done during the file read!"""
 
     newline_re = re.compile(r'^[\t ]+(.*)')
+    space_between = re.compile(r'(<[a-z]+>)([ \t]+)(<[a-z]+>)')
     output = []
     for line in lines.split("\n"):
         if line.startswith('--') or not line.strip():
@@ -46,6 +47,9 @@ def filter_cleaned_text(lines):
             '<SEPARATORB>' if x.endswith('<SEPARATORB>') else '<SEPARATORA>'
         ) for x in output.split("\n")
     ]
+
+    # remove space among control sequences
+    output = [space_between.sub(x, r'\1\3') for x in output]
 
     return "\n".join(output)
 
