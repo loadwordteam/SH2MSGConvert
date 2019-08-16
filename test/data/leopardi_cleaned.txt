@@ -5,7 +5,7 @@
 <SEPARATORA>che lividor, che sangue! oh, qual ti veggio,<STRING-END><SEPARATORA>
 <SEPARATORA>10formosissima donna! Io chiedo al cielo<STRING-END><SEPARATORA>
 <SEPARATORA>e al mondo: — Dite, dite;<NEWLINE>chi la ridusse a tale? — E questo è peggio,<STRING-END><SEPARATORA>
-<SEPARATORA>che di catene ha carche ambe le braccia;<STRING-END><SEPARATORA>
+<SEPARATORA>che di catene ha carche ambe le braccia;<STRING-END><SEPARATORB>
 <SEPARATORA>sí che sparte <COLOR-GREEN><COLOR-RED> le chiome e senza velo<STRING-END><SEPARATORA>
 <SEPARATORA>15siede in terra negletta e sconsolata,<STRING-END><SEPARATORA>
 <SEPARATORA>nascondendo <COLOR-GREEN><COLOR-BLUE>la faccia<STRING-END><SEPARATORA>

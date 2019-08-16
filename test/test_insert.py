@@ -50,6 +50,7 @@ class BasicEncoding(unittest.TestCase):
 
 class TestCleanDumpFilter(unittest.TestCase):
     def test(self):
+        self.maxDiff = 9999
         leopardi = None
         cleaned = None
         with open(os.path.join(TEST_DATA_DIR, 'leopardi.txt'), mode='r', newline="\n") as leo:

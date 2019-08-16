@@ -15,11 +15,11 @@ ma la gloria non vedo,
                    i nostri padri antichi. Or fatta inerme,
 nuda la fronte e nudo il petto mostri.<SEPARATORB>
 Oimè! quante ferite,
-che lividor, che sangue! oh, qual ti veggio,
+<SEPARATORA>che lividor, che sangue! oh, qual ti veggio,<STRING-END><SEPARATORA>
 10formosissima donna! Io chiedo al cielo
 e al mondo: — Dite, dite;
       chi la ridusse a tale? — E questo è peggio,
-che di catene ha carche ambe le braccia;
+<SEPARATORA>che di catene ha carche ambe le braccia;<STRING-END><SEPARATORB>
 sí che sparte <COLOR-GREEN> <COLOR-RED> le chiome e senza velo
 15siede in terra negletta e sconsolata,
 nascondendo <COLOR-GREEN>         <COLOR-BLUE>la faccia
