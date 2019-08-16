@@ -50,9 +50,12 @@ class BasicEncoding(unittest.TestCase):
 
 class TestCleanDumpFilter(unittest.TestCase):
     def test(self):
-        sample = None
+        leopardi = None
+        cleaned = None
         with open(os.path.join(TEST_DATA_DIR, 'leopardi.txt'), mode='r', newline="\n") as leo:
-            sample = leo.read()
-        print(sample)
-        print()
-        print(filter_cleaned_text(sample))
+            leopardi = leo.read()
+
+        with open(os.path.join(TEST_DATA_DIR, 'leopardi_cleaned.txt'), mode='r', newline="\n") as cls:
+            cleaned = cls.read()
+
+        self.assertEqual(filter_cleaned_text(leopardi).strip(), cleaned.strip())

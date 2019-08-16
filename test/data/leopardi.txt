@@ -20,7 +20,7 @@ che lividor, che sangue! oh, qual ti veggio,
 e al mondo: — Dite, dite;
       chi la ridusse a tale? — E questo è peggio,
 che di catene ha carche ambe le braccia;
-sí che sparte le chiome e senza velo
+sí che sparte <COLOR-GREEN> <COLOR-RED> le chiome e senza velo
 15siede in terra negletta e sconsolata,
-nascondendo la faccia
+nascondendo <COLOR-GREEN>         <COLOR-BLUE>la faccia
 tra le ginocchia, e piange.

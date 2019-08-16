@@ -22,14 +22,13 @@ class MesInsertException(Exception):
     pass
 
 
-def filter_cleaned_text(lines):
+def filter_cleaned_text(text_data):
     """This function expects lines to be a multiline string, the newline char assumed
     is \n, the conversion from Windows/Mac style can be done during the file read!"""
 
     newline_re = re.compile(r'^[\t ]+(.*)')
-    space_between = re.compile(r'(<[a-z]+>)([ \t]+)(<[a-z]+>)')
     output = []
-    for line in lines.split("\n"):
+    for line in text_data.split("\n"):
         if line.startswith('--') or not line.strip():
             continue
         newline = newline_re.findall(line)
@@ -48,16 +47,23 @@ def filter_cleaned_text(lines):
         ) for x in output.split("\n")
     ]
 
+    space_between = re.compile(r'(<[a-z1-2\-]+>)([ \t]+)(<[a-z1-2\-]+>)', re.IGNORECASE)
+
     # remove space among control sequences
-    output = [space_between.sub(x, r'\1\3') for x in output]
+    output = [space_between.sub(r'\1\3', x) for x in output]
 
     return "\n".join(output)
 
 
-def pack_container(path_mes, path_txt, table, encoding="utf-8-sig"):
-    with open(path_mes, 'bw') as container, open(path_txt, "r", encoding=encoding) as text:
+def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=False):
+    with open(path_mes, 'bw') as container, open(path_txt, "r", encoding=encoding) as text_data:
         binary_lines = []
-        for line_number, line in enumerate(text.readlines()):
+        text_data = text_data.read()
+
+        if clean_mode:
+            text_data = filter_cleaned_text(text_data)
+
+        for line_number, line in enumerate(text_data.split("\n")):
             string = line.rstrip()
             if string:
                 full_string_len = len(string)
