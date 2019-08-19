@@ -16,13 +16,14 @@
 
 import unittest
 import os
+import tempfile
 from .context import TEST_DATA_DIR
 
-from sh2msg import read_container
+from sh2msg import read_container, pack_container, dump_container
 from sh2msg.table.parse import load_default_table
 
 
-class TestBasicDump(unittest.TestCase):
+class TestReadContainer(unittest.TestCase):
     def test(self):
         self.maxDiff = 9999
         mes_data = read_container(
@@ -38,3 +39,28 @@ class TestBasicDump(unittest.TestCase):
             dante_text = "\n".join([x.rstrip() for x in dante.readlines()])
 
         self.assertEqual(mes_data, dante_text)
+
+
+class TestDumpNoClean(unittest.TestCase):
+    def test(self):
+        self.maxDiff = 9999
+
+        temp_mes = tempfile.NamedTemporaryFile(prefix='sh2mgs_test_')
+        temp_text = tempfile.NamedTemporaryFile(prefix='sh2mgs_test_text_')
+
+        pack_container(
+            temp_mes.name,
+            os.path.join(TEST_DATA_DIR, 'carducci_raw.txt'),
+            load_default_table(flip=True),
+            clean_mode=False
+        )
+
+        dump_text = dump_container(
+            temp_mes.name,
+            temp_text.name,
+            table=load_default_table(),
+            clean_mode=False
+        )
+
+        with open(temp_text.name, 'r') as f_text:
+            print(f_text.read())
