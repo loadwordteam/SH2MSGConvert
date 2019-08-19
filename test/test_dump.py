@@ -24,16 +24,17 @@ from sh2msg.table.parse import load_default_table
 
 class TestBasicDump(unittest.TestCase):
     def test(self):
+        self.maxDiff = 9999
         mes_data = read_container(
             os.path.join(TEST_DATA_DIR, 'dante_ok.mes'),
             load_default_table()
         )
 
-        mes_data = [line.rstrip() for line in mes_data]
+        mes_data = [line.rstrip() for line in mes_data.split("\n")]
+        mes_data = "\n".join(mes_data)
 
         dante_text = None
         with open(os.path.join(TEST_DATA_DIR, 'dante.txt')) as dante:
-            dante_text = [x.rstrip() for x in dante.readlines()]
+            dante_text = "\n".join([x.rstrip() for x in dante.readlines()])
 
         self.assertEqual(mes_data, dante_text)
-

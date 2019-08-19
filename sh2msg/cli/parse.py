@@ -28,3 +28,6 @@ parser.add_argument('--table', '-t', dest='table', type=str,
 
 parser.add_argument('--table-jap', '-j', dest='table_jap', action='store_true',
                     help='use the Japanese table')
+
+parser.add_argument('--raw-mode', '-r', dest='raw_mode', action='store_true',
+                    help="Read and write without cleaning or escaping the text.")

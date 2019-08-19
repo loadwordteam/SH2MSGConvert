@@ -32,7 +32,7 @@ def filter_clean_dump(text):
     return "\n".join(output)
 
 
-def read_container(path, table={}, clean_mode=True):
+def read_container(path, table={}):
     path = pathlib.Path(path)
     if not path.is_file():
         raise MesDumpException('Cannot read {}'.format(path.resolve()))
@@ -68,10 +68,14 @@ def read_container(path, table={}, clean_mode=True):
                     )
 
             found_strings.append(decoded_string)
-        return found_strings
+        return "\n".join(found_strings)
 
 
-def dump_container(path_mes, out_txt, encoding="utf-8-sig", table={}):
+def dump_container(path_mes, out_txt, encoding="utf-8-sig", table={}, clean_mode=True):
     lines = read_container(path_mes, table=table)
+
+    if clean_mode:
+        lines = filter_clean_dump(lines)
+
     with open(out_txt, 'w', encoding=encoding) as txt_file:
-        txt_file.write("\n".join(lines))
+        txt_file.write(lines)
