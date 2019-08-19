@@ -39,6 +39,6 @@ if __name__ == '__main__':
 
     clean_mode = not args.raw_mode
     if message.suffix == '.mes' and check_mes_structure(message.resolve()):
-        dump_container(message.resolve(), args.output or message.with_suffix('.txt').resolve(), table=table)
+        dump_container(message.resolve(), args.output or message.with_suffix('.txt').resolve(), table=table, clean_mode=clean_mode)
     elif message.suffix == '.txt':
         pack_container(args.output or message.with_suffix('.mes').resolve(), message.resolve(), table=table, clean_mode=clean_mode)

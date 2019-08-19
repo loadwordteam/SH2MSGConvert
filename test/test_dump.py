@@ -55,12 +55,43 @@ class TestDumpNoClean(unittest.TestCase):
             clean_mode=False
         )
 
-        dump_text = dump_container(
+        dump_container(
             temp_mes.name,
             temp_text.name,
             table=load_default_table(),
             clean_mode=False
         )
 
-        with open(temp_text.name, 'r') as f_text:
-            print(f_text.read())
+        with open(temp_text.name, 'r', encoding="utf-8-sig") as f_text, open(
+                os.path.join(TEST_DATA_DIR, 'carducci_raw.txt'), 'r', encoding="utf-8-sig") as f_carducci:
+            test_text = "\n".join([line.rstrip() for line in f_text.read().split("\n")])
+            carducci = f_carducci.read()
+            self.assertEqual(test_text.rstrip(), carducci.rstrip())
+
+
+class TestDumpCleanMode(unittest.TestCase):
+    def test(self):
+        self.maxDiff = 9999
+
+        temp_mes = tempfile.NamedTemporaryFile(prefix='sh2mgs_test_')
+        temp_text = tempfile.NamedTemporaryFile(prefix='sh2mgs_test_text_')
+
+        pack_container(
+            temp_mes.name,
+            os.path.join(TEST_DATA_DIR, 'carducci_raw.txt'),
+            load_default_table(flip=True),
+            clean_mode=False
+        )
+
+        dump_container(
+            temp_mes.name,
+            temp_text.name,
+            table=load_default_table(),
+            clean_mode=True
+        )
+
+        with open(temp_text.name, 'r', encoding="utf-8-sig") as f_text, open(
+                os.path.join(TEST_DATA_DIR, 'carducci_clean.txt'), 'r', encoding="utf-8-sig") as f_carducci:
+            test_text = "\n".join([line.rstrip() for line in f_text.read().split("\n")])
+            carducci = f_carducci.read()
+            self.assertEqual(test_text.rstrip(), carducci.rstrip())
