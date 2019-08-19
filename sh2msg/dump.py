@@ -24,7 +24,7 @@ class MesDumpException(Exception):
 
 
 def filter_clean_dump(text):
-    cleaner = re.compile(r'(?:<SEPARATORA>)?(.+?)(?:<STRING-END>)?(?:[ \t]*)(?:<SEPARATORA>)?(<SEPARATORB>)?')
+    cleaner = re.compile(r'(?:<SEPARATORA>)?(.+?)(?:<STRING-END>)?(?: ?<SEPARATORA>)?(<SEPARATORB>)?')
 
     output = [
         (cleaner.sub(r'\1\2', line)).replace("<NEWLINE>", "\n\t ") for line in text.split("\n")
