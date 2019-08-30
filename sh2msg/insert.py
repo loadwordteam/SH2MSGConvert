@@ -75,7 +75,7 @@ def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=T
                 start = end = 0
                 while start <= full_string_len - 1:
                     for value, hex_code in table.items():
-                        end = start + len(hex_code)
+                        end = start + len(value)
                         if value == string[start:end]:
                             encoded_pairs.append((value, hex_code))
                             start = end
@@ -100,6 +100,7 @@ def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=T
                         encoded_pairs.append((' ', b'\x00'))
 
                 binary_lines.append(b''.join([code for value, code in encoded_pairs]))
+
         start_offset = 2 + len(binary_lines) * 2
 
         pointers = [start_offset, ]

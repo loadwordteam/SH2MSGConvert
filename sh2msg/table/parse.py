@@ -54,7 +54,13 @@ def parse_table(table_string, flip=False):
     keys.sort(key=len, reverse=True)
 
     if flip:
-        return collections.OrderedDict([(char_map[key], key) for key in keys])
+        # we put the codes first in this case
+
+        char_codes = [key for key in char_map.values() if key.startswith('<') and key.endswith('>')]
+        char_keys = list(set(char_map.values()) - set(char_codes))
+
+        inv_char_map = {char_map[k]: k for k in char_map}
+        return collections.OrderedDict([(code, inv_char_map[code]) for code in char_codes + char_keys])
 
     return collections.OrderedDict([(key, char_map[key]) for key in keys])
 
