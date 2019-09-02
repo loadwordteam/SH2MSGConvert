@@ -54,13 +54,17 @@ def parse_table(table_string, flip=False):
     keys.sort(key=len, reverse=True)
 
     if flip:
+        # remove duplicates
+        char_map_dup = {}
+        for key, value in char_map.items():
+            char_map_dup.setdefault(value, set()).add(key)
+
+        char_map_dedup = dict(((value, min(code, key=len)) for value, code in char_map_dup.items()))
         # we put the codes first in this case
+        char_codes = [key for key in char_map_dedup.keys() if key.startswith('<') and key.endswith('>')]
+        char_keys = list(set(char_map_dedup.keys()) - set(char_codes))
 
-        char_codes = [key for key in char_map.values() if key.startswith('<') and key.endswith('>')]
-        char_keys = list(set(char_map.values()) - set(char_codes))
-
-        inv_char_map = {char_map[k]: k for k in char_map}
-        return collections.OrderedDict([(code, inv_char_map[code]) for code in char_codes + char_keys])
+        return collections.OrderedDict([(key, char_map_dedup[key]) for key in char_codes + char_keys])
 
     return collections.OrderedDict([(key, char_map[key]) for key in keys])
 

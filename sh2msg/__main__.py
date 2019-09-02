@@ -28,6 +28,7 @@ if __name__ == '__main__':
     message = pathlib.Path(args.filename)
     table = None
     flip = bool(message.suffix == '.txt')
+    clean_mode = not args.raw_mode
 
     if args.table is None:
         if args.table_jap:
@@ -37,7 +38,6 @@ if __name__ == '__main__':
     else:
         table = sh2msg.table.read_table_file(args.table, flip=flip)
 
-    clean_mode = not args.raw_mode
     if message.suffix == '.mes' and check_mes_structure(message.resolve()):
         dump_container(message.resolve(), args.output or message.with_suffix('.txt').resolve(), table=table, clean_mode=clean_mode)
     elif message.suffix == '.txt':

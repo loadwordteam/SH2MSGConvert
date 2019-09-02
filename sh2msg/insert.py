@@ -26,18 +26,18 @@ def filter_cleaned_text(text_data):
     """This function expects lines to be a multiline string, the newline char assumed
     is \n, the conversion from Windows/Mac style can be done during the file read!"""
 
-    newline_re = re.compile(r'^[\t ]+(.*)')
+    newline_re = re.compile(r'^\t+(.*)')
     output = []
     for line in text_data.split("\n"):
-        if line.startswith('--') or not line.strip():
+        if line.startswith('-' * 15) or not line.strip():
             continue
         newline = newline_re.findall(line)
         processed_line = ''
         if newline:
             for find in newline:
-                processed_line = "<NEWLINE>" + find.rstrip()
+                processed_line = "<NEWLINE>" + find
         else:
-            processed_line = line.rstrip()
+            processed_line = line
         output.append(processed_line)
 
     output = "\n".join(output).replace("\n<NEWLINE>", "<NEWLINE>")
@@ -46,7 +46,7 @@ def filter_cleaned_text(text_data):
     space_between = re.compile(r'(<[a-z1-2\-]+>)([ \t]+)(<[a-z1-2\-]+>)', re.IGNORECASE)
     output = [space_between.sub(r'\1\3', x) for x in output]
 
-    remove_delimiters = re.compile(r'(?:<SEPARATORA>)?(.+?)(?:<STRING-END>)?(?:<SEPARATORA>)?(<SEPARATORB>)?')
+    remove_delimiters = re.compile(r'^(?:<SEPARATORA>)?(.+?)(?:<STRING-END>)?(?:<SEPARATORA>)?(<SEPARATORB>)?$')
     output = [remove_delimiters.sub(r'\1\2', x) for x in output]
 
     output = [
