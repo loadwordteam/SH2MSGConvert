@@ -43,9 +43,6 @@ def filter_cleaned_text(text_data):
     output = "\n".join(output).replace("\n<NEWLINE>", "<NEWLINE>")
     output = output.split("\n")
 
-    space_between = re.compile(r'(<[a-z1-2\-]+>)([ \t]+)(<[a-z1-2\-]+>)', re.IGNORECASE)
-    output = [space_between.sub(r'\1\3', x) for x in output]
-
     output = [
         "<SEPARATORA>{0}<STRING-END>{1}".format(
             x.replace('<SEPARATORB>', ''),
