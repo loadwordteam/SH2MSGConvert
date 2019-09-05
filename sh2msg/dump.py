@@ -24,11 +24,26 @@ class MesDumpException(Exception):
 
 
 def filter_clean_dump(text):
-    cleaner = re.compile(r'(?:<SEPARATORA>)?(.+?)(?:<STRING-END>)?(?: ?<SEPARATORA>)?(<SEPARATORB>)?')
+    output = []
 
-    output = [
-        (cleaner.sub(r'\1\2', line)).replace("<NEWLINE>", "\n\t ") for line in text.split("\n")
-    ]
+    # might not be the most elegant way
+    end_lines = {
+        '<STRING-END> <SEPARATORA>': '',
+        '<STRING-END><SEPARATORA>': '',
+        '<STRING-END> <SEPARATORB>': '<SEPARATORB>',
+        '<STRING-END><SEPARATORB>': '<SEPARATORB>'
+    }
+
+    for idx, line in enumerate(text.split("\n")):
+        if line.startswith('<SEPARATORA>'):
+            line = line[len('<SEPARATORA>'):]
+
+        for find, replace in end_lines.items():
+            if line.endswith(find):
+                line = line[0:-len(find)] + replace
+        line = line.replace("<NEWLINE>", "\n\t")
+        output.append(line)
+
     return "\n".join(output)
 
 

@@ -46,9 +46,6 @@ def filter_cleaned_text(text_data):
     space_between = re.compile(r'(<[a-z1-2\-]+>)([ \t]+)(<[a-z1-2\-]+>)', re.IGNORECASE)
     output = [space_between.sub(r'\1\3', x) for x in output]
 
-    remove_delimiters = re.compile(r'^(?:<SEPARATORA>)?(.+?)(?:<STRING-END>)?(?:<SEPARATORA>)?(<SEPARATORB>)?$')
-    output = [remove_delimiters.sub(r'\1\2', x) for x in output]
-
     output = [
         "<SEPARATORA>{0}<STRING-END>{1}".format(
             x.replace('<SEPARATORB>', ''),
