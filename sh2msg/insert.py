@@ -83,15 +83,21 @@ def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=T
                                 line_number
                             )
                         )
+
+                pos = 0
+                for idx, (value, hex_code) in enumerate(encoded_pairs):
+                    if value == '<STRING-END>' and pos % 2 != 0 and encoded_pairs[idx + 1][0].startswith('<') and \
+                            encoded_pairs[idx + 1][0].endswith('>'):
+                        encoded_pairs.insert(idx + 1, (' ', table[' ']))
+                    pos += len(hex_code)
+
                 line_length = sum(len(hex_code) for value, hex_code in encoded_pairs)
                 if line_length % 2 != 0:
                     # let's pad the line
-                    last_value, last_code = encoded_pairs[-1]
-                    if last_value[0] == '<' and last_value[-1] == '>':
-                        encoded_pairs[-1] = (' ', b'\x00')
-                        encoded_pairs.append((last_value, last_code))
-                    else:
-                        encoded_pairs.append((' ', b'\x00'))
+                    for idx, (value, code) in reversed(list(enumerate(encoded_pairs))):
+                        if not (value.startswith('<') and value.endswith('>')) and value != ' ':
+                            encoded_pairs.insert(idx + 1, (' ', table[' ']))
+                            break
 
                 binary_lines.append(b''.join([code for value, code in encoded_pairs]))
 
