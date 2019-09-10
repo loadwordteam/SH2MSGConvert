@@ -16,7 +16,6 @@
 
 import pathlib
 import os
-import re
 
 
 class MesDumpException(Exception):
