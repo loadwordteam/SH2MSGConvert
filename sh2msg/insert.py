@@ -28,20 +28,22 @@ def filter_cleaned_text(text_data):
 
     newline_re = re.compile(r'^\t+(.*)')
     output = []
-    for line in text_data.split("\n"):
-        if line.startswith('-' * 15) or not line.strip():
-            continue
-        newline = newline_re.findall(line)
-        processed_line = ''
-        if newline:
-            for find in newline:
-                processed_line = "<NEWLINE>" + find
-        else:
-            processed_line = line
-        output.append(processed_line)
+    for part in text_data.split("\n" + "-" * 15 + "\n"):
+        part = part.rstrip("\n")
+        if part.strip():
+            block = []
+            for line in part.split("\n"):
+                if line.startswith('-' * 15):
+                    continue
 
-    output = "\n".join(output).replace("\n<NEWLINE>", "<NEWLINE>")
-    output = output.split("\n")
+                if not line.strip():
+                    line = '<STRING-END><WAIT><SEPARATORA>'
+
+                if newline_re.findall(line):
+                    line = newline_re.sub(r'<NEWLINE>\1', line)
+
+                block.append(line)
+            output.append("".join(block))
 
     output = [
         "<SEPARATORA>{0}<STRING-END>{1}".format(

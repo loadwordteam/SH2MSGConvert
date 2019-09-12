@@ -41,9 +41,10 @@ def filter_clean_dump(text):
             if line.endswith(find):
                 line = line[0:-len(find)] + replace
         line = line.replace("<NEWLINE>", "\n\t")
+        line = line.replace('<STRING-END><WAIT><SEPARATORA>', "\n\n")
         output.append(line)
 
-    return "\n".join(output)
+    return ("\n" + "-" * 15 + "\n").join(output)
 
 
 def read_container(path, table={}):
