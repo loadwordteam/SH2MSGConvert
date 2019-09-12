@@ -16,6 +16,7 @@
 
 import pathlib
 import os
+import re
 
 
 class MesDumpException(Exception):
@@ -33,6 +34,8 @@ def filter_clean_dump(text):
         '<STRING-END><SEPARATORB>': '<SEPARATORB>'
     }
 
+    re_page = re.compile(r'<STRING-END> *<WAIT> *<SEPARATORA>')
+
     for idx, line in enumerate(text.split("\n")):
         if line.startswith('<SEPARATORA>'):
             line = line[len('<SEPARATORA>'):]
@@ -41,7 +44,7 @@ def filter_clean_dump(text):
             if line.endswith(find):
                 line = line[0:-len(find)] + replace
         line = line.replace("<NEWLINE>", "\n\t")
-        line = line.replace('<STRING-END><WAIT><SEPARATORA>', "\n\n")
+        line = re_page.sub("\n\n", line)
         output.append(line)
 
     return ("\n" + "-" * 15 + "\n").join(output)
