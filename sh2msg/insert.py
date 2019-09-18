@@ -36,11 +36,11 @@ def filter_cleaned_text(text_data):
                 if line.startswith('-' * 15):
                     continue
 
-                if not line.strip():
-                    line = '<STRING-END><WAIT><SEPARATORA>'
-
                 if newline_re.findall(line):
                     line = newline_re.sub(r'<NEWLINE>\1', line)
+
+                if not line:
+                    line = '<STRING-END><WAIT><SEPARATORA>'
 
                 block.append(line)
             output.append("".join(block))
