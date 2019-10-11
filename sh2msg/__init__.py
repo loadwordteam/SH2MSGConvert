@@ -26,4 +26,5 @@ from sh2msg.mes_format import MesNotValid
 from sh2msg.dump import dump_container, read_container, filter_clean_dump
 from sh2msg.insert import pack_container, filter_cleaned_text
 
-VERSION_NUMBER = '1.2beta'
+VERSION_NUMBER = '1.3'
+COMMENT_LENGHT = '-' * 15

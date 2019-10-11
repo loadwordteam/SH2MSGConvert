@@ -16,11 +16,27 @@
 
 import collections
 import io
+import re
+import pathlib
 import string
+import itertools
+from sh2msg import COMMENT_LENGHT
 from sh2msg.table import DEFAULT_TABLE_PATH, JAP_TABLE_PATH
+
+SUPPORTED_LANGUAGES = {
+    '_e': ['english', 'en'],
+    '_f': ['french', 'fr'],
+    '_g': ['german', 'de'],
+    '_i': ['italian', 'it'],
+    '_j': ['japanese', 'ja']
+}
 
 
 class TableException(Exception):
+    pass
+
+
+class HeaderNorValue(Exception):
     pass
 
 
@@ -77,9 +93,47 @@ def read_table_file(path, flip=False, encoding="utf-8-sig"):
     return parse_table(table_string, flip=flip)
 
 
-def load_default_table(flip=False, encoding="utf-8-sig"):
-    return read_table_file(DEFAULT_TABLE_PATH, flip=flip, encoding=encoding)
+def load_default_table(flip=False, encoding="utf-8-sig", language_code='_e'):
+    return read_table_file(
+        JAP_TABLE_PATH if language_code == '_j' else DEFAULT_TABLE_PATH,
+        flip=flip,
+        encoding=encoding
+    )
 
 
 def load_jap_table(flip=False, encoding="utf-8-sig"):
     return read_table_file(JAP_TABLE_PATH, flip=flip, encoding=encoding)
+
+
+def get_language_from_path(path):
+    path = pathlib.Path(path)
+    if path.stem[-2:] in SUPPORTED_LANGUAGES.keys():
+        return SUPPORTED_LANGUAGES[path.stem[-2:]]
+    return SUPPORTED_LANGUAGES['_e']
+
+
+def parse_header(text):
+    PATTERN_CONF = r'-' * COMMENT_LENGHT + r'  *(lang *= *([a-z]+)|lines *= *([0-9]+))'
+    re_conf = re.compile(PATTERN_CONF)
+    all_langs = dict(
+        itertools.chain.from_iterable(
+            (
+                (
+                    (x[1][0], x[0]), (x[1][1], x[0])
+                ) for x in SUPPORTED_LANGUAGES.items()
+            )
+        )
+    )
+    num_lines = None
+    language = None
+    if re_conf.match(text):
+        for pattern, lang, lines in re_conf.findall(text):
+            if lines:
+                num_lines = int(lines.strip())
+            if all_langs.get(lang.lower(), None):
+                language = all_langs.get(lang.lower())
+        if language is None:
+            raise HeaderNorValue('Cannot recognize language')
+        if (num_lines is None or language is None) and (text.find('lang') != -1 or text.find('lines') != -1):
+            raise HeaderNorValue('Malformed header, check the first line!')
+    return language, num_lines

@@ -24,3 +24,5 @@ from sh2msg.table.parse import parse_table
 from sh2msg.table.parse import read_table_file
 from sh2msg.table.parse import load_default_table
 from sh2msg.table.parse import load_jap_table
+from sh2msg.table.parse import get_language_from_path
+from sh2msg.table.parse import parse_header

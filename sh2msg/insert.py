@@ -17,6 +17,8 @@
 import struct
 import re
 
+from sh2msg import COMMENT_LENGHT
+
 
 class MesInsertException(Exception):
     pass
@@ -28,12 +30,12 @@ def filter_cleaned_text(text_data):
 
     newline_re = re.compile(r'^\t+(.*)')
     output = []
-    for part in text_data.split("\n" + "-" * 15 + "\n"):
+    for part in text_data.split("\n" + "-" * COMMENT_LENGHT + "\n"):
         part = part.rstrip("\n")
         if part.strip():
             block = []
             for line in part.split("\n"):
-                if line.startswith('-' * 15):
+                if line.startswith('-' * COMMENT_LENGHT):
                     continue
 
                 if newline_re.findall(line):
@@ -52,16 +54,21 @@ def filter_cleaned_text(text_data):
         ) for x in output
     ]
 
-    return "\n".join(output)
+    return output
 
 
-def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=True):
+def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=True, num_line_check=None):
     with open(path_mes, 'bw') as container, open(path_txt, "r", encoding=encoding) as text_data:
         binary_lines = []
         text_data = text_data.read()
 
         if clean_mode:
-            text_data = filter_cleaned_text(text_data)
+            text_cleaned = filter_cleaned_text(text_data)
+            if num_line_check and len(text_cleaned) != num_line_check:
+                raise MesInsertException(
+                    'Found {} entries on this TXT, expected {}'.format(num_line_check, len(text_cleaned))
+                )
+            text_data = "\n".join(text_cleaned)
 
         for line_number, line in enumerate(text_data.split("\n")):
             string = line.rstrip()
@@ -85,7 +92,6 @@ def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=T
                                 line_number
                             )
                         )
-
                 pos = 0
                 for idx, (value, hex_code) in enumerate(encoded_pairs):
                     if value == '<STRING-END>' and pos % 2 != 0 and encoded_pairs[idx + 1][0].startswith('<') and \

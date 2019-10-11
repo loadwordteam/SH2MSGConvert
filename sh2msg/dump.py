@@ -17,14 +17,21 @@
 import pathlib
 import os
 import re
+from sh2msg import COMMENT_LENGHT
+from sh2msg.table.parse import SUPPORTED_LANGUAGES
 
 
 class MesDumpException(Exception):
     pass
 
 
-def filter_clean_dump(text):
+def filter_clean_dump(lines, num_entries=None, language=None):
     output = []
+
+    if num_entries or language:
+        output.append(
+            "{} lines={} language={}".format('-' * COMMENT_LENGHT, num_entries, language[0])
+        )
 
     # might not be the most elegant way
     end_lines = {
@@ -36,7 +43,7 @@ def filter_clean_dump(text):
 
     re_page = re.compile(r'<STRING-END> *<WAIT> *<SEPARATORA>')
 
-    for idx, line in enumerate(text.split("\n")):
+    for idx, line in enumerate(lines):
         if line.startswith('<SEPARATORA>'):
             line = line[len('<SEPARATORA>'):]
 
@@ -47,7 +54,7 @@ def filter_clean_dump(text):
         line = re_page.sub("\n\n", line)
         output.append(line)
 
-    return ("\n" + "-" * 15 + "\n").join(output)
+    return ("\n" + "-" * COMMENT_LENGHT + "\n").join(output)
 
 
 def read_container(path, table={}):
@@ -55,6 +62,8 @@ def read_container(path, table={}):
     if not path.is_file():
         raise MesDumpException('Cannot read {}'.format(path.resolve()))
     found_strings = []
+    entries = None
+    language = SUPPORTED_LANGUAGES['_e']
     with path.open('br') as container:
         entries = int.from_bytes(container.read(2), 'little')
 
@@ -86,14 +95,14 @@ def read_container(path, table={}):
                     )
 
             found_strings.append(decoded_string)
-        return "\n".join(found_strings)
+        return language, entries, found_strings
 
 
 def dump_container(path_mes, out_txt, encoding="utf-8-sig", table={}, clean_mode=True):
-    lines = read_container(path_mes, table=table)
+    language, num_entries, lines = read_container(path_mes, table=table)
 
     if clean_mode:
-        lines = filter_clean_dump(lines)
+        lines = filter_clean_dump(lines, num_entries, language)
 
     with open(out_txt, 'w', encoding=encoding) as txt_file:
         txt_file.write(lines)
