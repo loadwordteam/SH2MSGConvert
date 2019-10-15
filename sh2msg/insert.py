@@ -31,6 +31,9 @@ def filter_cleaned_text(text_data):
     newline_re = re.compile(r'^\t+(.*)')
     output = []
     for part in text_data.split("\n" + "-" * COMMENT_LENGHT + "\n"):
+        # ignore the blocks of pure comments
+        if all(line.startswith('-' * COMMENT_LENGHT) for line in part.split("\n")):
+            continue
         part = part.rstrip("\n")
         if part.strip():
             block = []
@@ -53,7 +56,6 @@ def filter_cleaned_text(text_data):
             '<SEPARATORB>' if x.endswith('<SEPARATORB>') else '<SEPARATORA>'
         ) for x in output
     ]
-
     return output
 
 

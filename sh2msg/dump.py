@@ -103,6 +103,8 @@ def dump_container(path_mes, out_txt, encoding="utf-8-sig", table={}, clean_mode
 
     if clean_mode:
         lines = filter_clean_dump(lines, num_entries, language)
+    else:
+        lines = "\n".join(lines)
 
     with open(out_txt, 'w', encoding=encoding) as txt_file:
         txt_file.write(lines)
