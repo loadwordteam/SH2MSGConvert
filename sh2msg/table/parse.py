@@ -16,27 +16,14 @@
 
 import collections
 import io
-import re
 import pathlib
 import string
-import itertools
-from sh2msg import COMMENT_LENGHT
-from sh2msg.table import DEFAULT_TABLE_PATH, JAP_TABLE_PATH
 
-SUPPORTED_LANGUAGES = {
-    '_e': ['english', 'en'],
-    '_f': ['french', 'fr'],
-    '_g': ['german', 'de'],
-    '_i': ['italian', 'it'],
-    '_j': ['japanese', 'ja']
-}
+from sh2msg.header import SUPPORTED_LANGUAGES
+from sh2msg.table import DEFAULT_TABLE_PATH, JAP_TABLE_PATH
 
 
 class TableException(Exception):
-    pass
-
-
-class HeaderNorValue(Exception):
     pass
 
 
@@ -110,30 +97,3 @@ def get_language_from_path(path):
     if path.stem[-2:] in SUPPORTED_LANGUAGES.keys():
         return SUPPORTED_LANGUAGES[path.stem[-2:]]
     return SUPPORTED_LANGUAGES['_e']
-
-
-def parse_header(text):
-    PATTERN_CONF = r'-' * COMMENT_LENGHT + r'  *(lang *= *([a-z]+)|lines *= *([0-9]+))'
-    re_conf = re.compile(PATTERN_CONF)
-    all_langs = dict(
-        itertools.chain.from_iterable(
-            (
-                (
-                    (x[1][0], x[0]), (x[1][1], x[0])
-                ) for x in SUPPORTED_LANGUAGES.items()
-            )
-        )
-    )
-    num_lines = None
-    language = None
-    if re_conf.match(text):
-        for pattern, lang, lines in re_conf.findall(text):
-            if lines:
-                num_lines = int(lines.strip())
-            if all_langs.get(lang.lower(), None):
-                language = all_langs.get(lang.lower())
-        if language is None:
-            raise HeaderNorValue('Cannot recognize language')
-        if (num_lines is None or language is None) and (text.find('lang') != -1 or text.find('lines') != -1):
-            raise HeaderNorValue('Malformed header, check the first line!')
-    return language, num_lines

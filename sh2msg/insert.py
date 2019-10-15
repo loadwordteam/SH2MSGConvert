@@ -17,7 +17,7 @@
 import struct
 import re
 
-from sh2msg import COMMENT_LENGHT
+from sh2msg import COMMENT_FORMAT
 
 
 class MesInsertException(Exception):
@@ -30,15 +30,15 @@ def filter_cleaned_text(text_data):
 
     newline_re = re.compile(r'^\t+(.*)')
     output = []
-    for part in text_data.split("\n" + "-" * COMMENT_LENGHT + "\n"):
+    for part in text_data.split("\n" + COMMENT_FORMAT + "\n"):
         # ignore the blocks of pure comments
-        if all(line.startswith('-' * COMMENT_LENGHT) for line in part.split("\n")):
+        if all(line.startswith(COMMENT_FORMAT) for line in part.split("\n")):
             continue
         part = part.rstrip("\n")
         if part.strip():
             block = []
             for line in part.split("\n"):
-                if line.startswith('-' * COMMENT_LENGHT):
+                if line.startswith(COMMENT_FORMAT):
                     continue
 
                 if newline_re.findall(line):

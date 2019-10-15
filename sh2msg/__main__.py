@@ -22,7 +22,7 @@ import sh2msg.table
 from sh2msg.cli import parse
 from sh2msg import check_mes_structure
 from sh2msg.table import get_language_from_path
-from sh2msg.table import parse_header
+from sh2msg.header import parse_header
 
 if __name__ == '__main__':
     args = parse.parser.parse_args()
@@ -52,6 +52,7 @@ if __name__ == '__main__':
                 first_line = text_file.readline()
 
             language, num_lines = parse_header(first_line)
+
             if language:
                 table = sh2msg.table.load_default_table(flip=flip, language_code=language)
         pack_container(args.output or message.with_suffix('.mes').resolve(), message.resolve(), table=table,

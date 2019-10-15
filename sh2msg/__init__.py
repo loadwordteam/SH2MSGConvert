@@ -14,7 +14,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with sh2msg-convert.  If not, see <http://www.gnu.org/licenses/>.
 
-COMMENT_LENGHT = 15
+COMMENT_FORMAT = '-' * 15
 
 from sh2msg.table import read_table_file
 from sh2msg.table import parse_table
@@ -27,5 +27,7 @@ from sh2msg.mes_format import MesNotValid
 
 from sh2msg.dump import dump_container, read_container, filter_clean_dump
 from sh2msg.insert import pack_container, filter_cleaned_text
+
+from sh2msg import header
 
 VERSION_NUMBER = '1.4'

@@ -17,8 +17,9 @@
 import pathlib
 import os
 import re
-from sh2msg import COMMENT_LENGHT
-from sh2msg.table.parse import SUPPORTED_LANGUAGES
+from sh2msg import COMMENT_FORMAT
+from sh2msg.header import SUPPORTED_LANGUAGES
+from sh2msg.header import make_header
 
 
 class MesDumpException(Exception):
@@ -29,9 +30,7 @@ def filter_clean_dump(lines, num_entries=None, language=None):
     output = []
 
     if num_entries or language:
-        output.append(
-            "{} lines={} language={}".format('-' * COMMENT_LENGHT, num_entries, language[0])
-        )
+        output.append(make_header(language[0], num_entries))
 
     # might not be the most elegant way
     end_lines = {
@@ -54,7 +53,7 @@ def filter_clean_dump(lines, num_entries=None, language=None):
         line = re_page.sub("\n\n", line)
         output.append(line)
 
-    return ("\n" + "-" * COMMENT_LENGHT + "\n").join(output)
+    return ("\n" + COMMENT_FORMAT + "\n").join(output)
 
 
 def read_container(path, table={}):
