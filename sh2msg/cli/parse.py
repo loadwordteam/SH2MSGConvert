@@ -18,16 +18,16 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Dump or insert data.')
 parser.add_argument('filename', metavar='FILE', type=str,
-                    help='Decode or encode a .mes/.txt file')
+                    help='Decode or encode a .mes or .txt file')
 
 parser.add_argument('--output', '-o', dest='output', type=str,
-                    help='specific output file')
+                    help='Define output file')
 
 parser.add_argument('--table', '-t', dest='table', type=str,
-                    help='define alternate table')
+                    help='Define alternate table file')
 
 parser.add_argument('--table-jap', '-j', dest='table_jap', action='store_true',
-                    help='use the Japanese table')
+                    help='Force to use the Japanese table, usually autodetect it.')
 
 parser.add_argument('--raw-mode', '-r', dest='raw_mode', action='store_true',
                     help="Read and write without cleaning or escaping the text.")

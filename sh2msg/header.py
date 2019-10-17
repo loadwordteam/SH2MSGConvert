@@ -63,6 +63,7 @@ def parse_header(text):
 
             if all_languages.get(value.lower(), None):
                 language = all_languages.get(value.lower())
+                language = SUPPORTED_LANGUAGES.get(language)
             else:
                 raise HeaderException('Value for language {} invalid expected one of the following: {}'.format(
                     value,

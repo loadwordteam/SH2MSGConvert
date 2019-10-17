@@ -26,7 +26,6 @@ from sh2msg.header import parse_header
 
 if __name__ == '__main__':
     args = parse.parser.parse_args()
-
     message = pathlib.Path(args.filename)
     table = None
     flip = bool(message.suffix == '.txt')
@@ -36,8 +35,8 @@ if __name__ == '__main__':
         if args.table_jap:
             table = sh2msg.table.load_jap_table(flip=flip)
         else:
-            language_code = get_language_from_path(message)
-            table = sh2msg.table.load_default_table(flip=flip, language_code=language_code)
+            language = get_language_from_path(message)
+            table = sh2msg.table.load_default_table(flip=flip, language=language)
     else:
         table = sh2msg.table.read_table_file(args.table, flip=flip)
 
@@ -54,6 +53,6 @@ if __name__ == '__main__':
             language, num_strings = parse_header(first_line)
 
             if language:
-                table = sh2msg.table.load_default_table(flip=flip, language_code=language)
+                table = sh2msg.table.load_default_table(flip=flip, language=language)
         pack_container(args.output or message.with_suffix('.mes').resolve(), message.resolve(), table=table,
                        clean_mode=clean_mode, num_line_check=num_strings)

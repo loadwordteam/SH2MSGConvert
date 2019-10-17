@@ -80,9 +80,10 @@ def read_table_file(path, flip=False, encoding="utf-8-sig"):
     return parse_table(table_string, flip=flip)
 
 
-def load_default_table(flip=False, encoding="utf-8-sig", language_code='_e'):
+def load_default_table(flip=False, encoding="utf-8-sig", language=None):
+    language = language or SUPPORTED_LANGUAGES['_e']
     return read_table_file(
-        JAP_TABLE_PATH if language_code == '_j' else DEFAULT_TABLE_PATH,
+        JAP_TABLE_PATH if language[0] == 'japanese' else DEFAULT_TABLE_PATH,
         flip=flip,
         encoding=encoding
     )
