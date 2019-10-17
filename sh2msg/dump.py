@@ -18,22 +18,22 @@ import pathlib
 import os
 import re
 from sh2msg import COMMENT_FORMAT
-from sh2msg.header import SUPPORTED_LANGUAGES
 from sh2msg.header import make_header
+from sh2msg.table import get_language_from_path
 
 
 class MesDumpException(Exception):
     pass
 
 
-def filter_clean_dump(lines, num_entries=None, language=None):
+def filter_clean_dump(strings, num_strings=None, language=None):
     output = []
 
-    if num_entries or language:
-        output.append(make_header(language[0], num_entries))
+    if num_strings or language:
+        output.append(make_header(language[0], num_strings))
 
     # might not be the most elegant way
-    end_lines = {
+    end_strings = {
         '<STRING-END> <SEPARATORA>': '',
         '<STRING-END><SEPARATORA>': '',
         '<STRING-END> <SEPARATORB>': '<SEPARATORB>',
@@ -42,11 +42,11 @@ def filter_clean_dump(lines, num_entries=None, language=None):
 
     re_page = re.compile(r'<STRING-END> *<WAIT> *<SEPARATORA>')
 
-    for idx, line in enumerate(lines):
+    for idx, line in enumerate(strings):
         if line.startswith('<SEPARATORA>'):
             line = line[len('<SEPARATORA>'):]
 
-        for find, replace in end_lines.items():
+        for find, replace in end_strings.items():
             if line.endswith(find):
                 line = line[0:-len(find)] + replace
         line = line.replace("<NEWLINE>", "\n\t")
@@ -61,13 +61,13 @@ def read_container(path, table={}):
     if not path.is_file():
         raise MesDumpException('Cannot read {}'.format(path.resolve()))
     found_strings = []
-    entries = None
-    language = SUPPORTED_LANGUAGES['_e']
+    strings = None
+    language = get_language_from_path(path)
     with path.open('br') as container:
-        entries = int.from_bytes(container.read(2), 'little')
+        strings = int.from_bytes(container.read(2), 'little')
 
         pointers = []
-        for idx in range(entries):
+        for idx in range(strings):
             pointers.append(int.from_bytes(container.read(2), 'little') * 2)
 
         for idx, addr in enumerate(pointers):
@@ -94,16 +94,16 @@ def read_container(path, table={}):
                     )
 
             found_strings.append(decoded_string)
-        return language, entries, found_strings
+        return language, strings, found_strings
 
 
 def dump_container(path_mes, out_txt, encoding="utf-8-sig", table={}, clean_mode=True):
-    language, num_entries, lines = read_container(path_mes, table=table)
+    language, num_strings, strings = read_container(path_mes, table=table)
 
     if clean_mode:
-        lines = filter_clean_dump(lines, num_entries, language)
+        strings = filter_clean_dump(strings, num_strings, language)
     else:
-        lines = "\n".join(lines)
+        strings = "\n".join(strings)
 
     with open(out_txt, 'w', encoding=encoding) as txt_file:
-        txt_file.write(lines)
+        txt_file.write(strings)

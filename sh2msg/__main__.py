@@ -45,15 +45,15 @@ if __name__ == '__main__':
         dump_container(message.resolve(), args.output or message.with_suffix('.txt').resolve(), table=table,
                        clean_mode=clean_mode)
     elif message.suffix == '.txt':
-        num_lines = None
+        num_strings = None
         if clean_mode:
             first_line = None
             with open(message, 'r') as text_file:
                 first_line = text_file.readline()
 
-            language, num_lines = parse_header(first_line)
+            language, num_strings = parse_header(first_line)
 
             if language:
                 table = sh2msg.table.load_default_table(flip=flip, language_code=language)
         pack_container(args.output or message.with_suffix('.mes').resolve(), message.resolve(), table=table,
-                       clean_mode=clean_mode, num_line_check=num_lines)
+                       clean_mode=clean_mode, num_line_check=num_strings)

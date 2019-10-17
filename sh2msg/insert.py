@@ -30,6 +30,7 @@ def filter_cleaned_text(text_data):
 
     newline_re = re.compile(r'^\t+(.*)')
     output = []
+
     for part in text_data.split("\n" + COMMENT_FORMAT + "\n"):
         # ignore the blocks of pure comments
         if all(line.startswith(COMMENT_FORMAT) for line in part.split("\n")):
@@ -60,19 +61,20 @@ def filter_cleaned_text(text_data):
 
 
 def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=True, num_line_check=None):
-    with open(path_mes, 'bw') as container, open(path_txt, "r", encoding=encoding) as text_data:
-        binary_lines = []
-        text_data = text_data.read()
+    with open(path_mes, 'bw') as container, open(path_txt, "r", encoding=encoding) as f_text_data:
+
+        binary_strings = []
+        text_data = f_text_data.readlines()
 
         if clean_mode:
-            text_cleaned = filter_cleaned_text(text_data)
+            text_cleaned = filter_cleaned_text("".join(text_data))
             if num_line_check and len(text_cleaned) != num_line_check:
                 raise MesInsertException(
-                    'Found {} entries on this TXT, expected {}'.format(num_line_check, len(text_cleaned))
+                    'Found {} strings on this TXT, expected {}'.format(num_line_check, len(text_cleaned))
                 )
-            text_data = "\n".join(text_cleaned)
+            text_data = text_cleaned
 
-        for line_number, line in enumerate(text_data.split("\n")):
+        for line_number, line in enumerate(text_data):
             string = line.rstrip()
             if string:
                 full_string_len = len(string)
@@ -109,12 +111,12 @@ def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=T
                             encoded_pairs.insert(idx + 1, (' ', table[' ']))
                             break
 
-                binary_lines.append(b''.join([code for value, code in encoded_pairs]))
+                binary_strings.append(b''.join([code for value, code in encoded_pairs]))
 
-        start_offset = 2 + len(binary_lines) * 2
+        start_offset = 2 + len(binary_strings) * 2
 
         pointers = [start_offset, ]
-        for idx, string in enumerate(binary_lines[:-1]):
+        for idx, string in enumerate(binary_strings[:-1]):
             pointers.append(
                 int(
                     (len(string) + pointers[idx])
@@ -122,6 +124,6 @@ def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=T
             )
 
         pointers = [struct.pack('<H', int(data / 2)) for data in pointers]
-        container.write(struct.pack('<H', len(binary_lines)))
+        container.write(struct.pack('<H', len(binary_strings)))
         container.write(b''.join(pointers))
-        container.write(b''.join(binary_lines))
+        container.write(b''.join(binary_strings))

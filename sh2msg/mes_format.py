@@ -44,15 +44,15 @@ def check_mes_structure(mes_filename):
             'file {} is too small only {} bytes'.format(mes_path.resolve(), mes_path.stat().st_size))
 
     with mes_path.open(mode='rb') as container:
-        entries = int.from_bytes(container.read(2), 'little')
-        if entries * 2 >= filesize - 2:
-            raise MesNotValid('file {}: number of entries exceeded the file itself'.format(mes_path.resolve()))
+        strings = int.from_bytes(container.read(2), 'little')
+        if strings * 2 >= filesize - 2:
+            raise MesNotValid('file {}: number of strings exceeded the file itself'.format(mes_path.resolve()))
         pointer = int.from_bytes(container.read(2), 'little') * 2
         if pointer >= filesize:
             raise MesNotValid('file {}: pointer goes over the file size'.format(mes_path.resolve()))
 
-        if entries > 1:
-            for idx in range(entries - 1):
+        if strings > 1:
+            for idx in range(strings - 1):
                 next_pointer = int.from_bytes(container.read(2), 'little') * 2
                 if next_pointer >= filesize:
                     raise MesNotValid('file {}: pointer goes over the file size'.format(mes_path.resolve()))

@@ -27,7 +27,7 @@ SUPPORTED_LANGUAGES = {
 }
 
 CONF_LANGUAGE = 'language'
-CONF_NUM_LINES = 'lines'
+CONF_NUM_STRINGS = 'strings'
 
 
 class HeaderException(Exception):
@@ -35,20 +35,20 @@ class HeaderException(Exception):
 
 
 def parse_header(text):
-    if text.find(CONF_LANGUAGE) == -1 and text.find(CONF_NUM_LINES) == -1:
+    if text.find(CONF_LANGUAGE) == -1 and text.find(CONF_NUM_STRINGS) == -1:
         return None, None
 
-    num_lines = None
+    num_strings = None
     language = None
 
     for conf in re.findall('([a-z]+ *= *[^ ]+ *)', text):
         key, value = conf.split('=')
         value = value.strip()
-        if key == CONF_NUM_LINES:
+        if key == CONF_NUM_STRINGS:
             try:
-                num_lines = int(value)
+                num_strings = int(value)
             except ValueError:
-                raise HeaderException('Value for lines {} invalid, expected numeric'.format(value))
+                raise HeaderException('Value for "strings" {} invalid, expected numeric'.format(value))
         elif key == CONF_LANGUAGE:
 
             all_languages = dict(
@@ -70,11 +70,11 @@ def parse_header(text):
                 )
         else:
             raise HeaderException(
-                'Configuration not valid, found "{}", expected "{}" or "{}"'.format(key, CONF_LANGUAGE, CONF_NUM_LINES)
+                'Configuration not valid, found "{}", expected "{}" or "{}"'.format(key, CONF_LANGUAGE, CONF_NUM_STRINGS)
             )
 
-    return language, num_lines
+    return language, num_strings
 
 
-def make_header(language, num_lines):
-    return "{} language={} lines={}".format(COMMENT_FORMAT, language, num_lines)
+def make_header(language, num_strings):
+    return "{} {}={} {}={}".format(COMMENT_FORMAT, CONF_NUM_STRINGS, num_strings, CONF_LANGUAGE, language)
