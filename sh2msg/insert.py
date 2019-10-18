@@ -24,7 +24,7 @@ class MesInsertException(Exception):
     pass
 
 
-def filter_cleaned_text(text_data):
+def filter_cleaned_text(text_data, language=None):
     """This function expects lines to be a multiline string, the newline char assumed
     is \n, the conversion from Windows/Mac style can be done during the file read!"""
 
@@ -51,23 +51,33 @@ def filter_cleaned_text(text_data):
                 block.append(line)
             output.append("".join(block))
 
-    output = [
-        "<SEPARATORA>{0}<STRING-END>{1}".format(
-            x.replace('<SEPARATORB>', ''),
-            '<SEPARATORB>' if x.endswith('<SEPARATORB>') else '<SEPARATORA>'
-        ) for x in output
-    ]
+    if language and language[0] == 'japanese':
+        output = [
+            "{0}<STRING-END>{1}".format(
+                x.replace('<SEPARATORB>', ''),
+                '<SEPARATORB>' if x.endswith('<SEPARATORB>') else '<SEPARATORA>'
+            ) for x in output
+        ]
+    else:
+        output = [
+            "<SEPARATORA>{0}<STRING-END>{1}".format(
+                x.replace('<SEPARATORB>', ''),
+                '<SEPARATORB>' if x.endswith('<SEPARATORB>') else '<SEPARATORA>'
+            ) for x in output
+        ]
+
     return output
 
 
-def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=True, num_line_check=None):
+def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=True, num_line_check=None,
+                   language=None):
     with open(path_mes, 'bw') as container, open(path_txt, "r", encoding=encoding) as f_text_data:
 
         binary_strings = []
         text_data = f_text_data.readlines()
 
         if clean_mode:
-            text_cleaned = filter_cleaned_text("".join(text_data))
+            text_cleaned = filter_cleaned_text("".join(text_data), language)
             if num_line_check and len(text_cleaned) != num_line_check:
                 raise MesInsertException(
                     'Found {} strings on this TXT, expected {}'.format(num_line_check, len(text_cleaned))

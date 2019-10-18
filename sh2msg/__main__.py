@@ -30,7 +30,7 @@ if __name__ == '__main__':
     table = None
     flip = bool(message.suffix == '.txt')
     clean_mode = not args.raw_mode
-
+    language = None
     if args.table is None:
         if args.table_jap:
             table = sh2msg.table.load_jap_table(flip=flip)
@@ -55,4 +55,4 @@ if __name__ == '__main__':
             if language:
                 table = sh2msg.table.load_default_table(flip=flip, language=language)
         pack_container(args.output or message.with_suffix('.mes').resolve(), message.resolve(), table=table,
-                       clean_mode=clean_mode, num_line_check=num_strings)
+                       clean_mode=clean_mode, num_line_check=num_strings, language=language)
