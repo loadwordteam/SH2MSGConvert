@@ -16,8 +16,8 @@
 
 import os
 
-DEFAULT_TABLE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), './data/table.txt'))
-JAP_TABLE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), './data/tableJAP.txt'))
+DEFAULT_TABLE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data', 'table.txt'))
+JAP_TABLE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data', 'tableJAP.txt'))
 
 from sh2msg.table.parse import TableException
 from sh2msg.table.parse import parse_table

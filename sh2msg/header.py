@@ -34,6 +34,13 @@ class HeaderException(Exception):
     pass
 
 
+def parse_header_from_file(path, encoding="utf-8-sig"):
+    first_line = None
+    with open(path, 'r', encoding=encoding) as text_file:
+        first_line = text_file.readline()
+    return parse_header(first_line)
+
+
 def parse_header(text):
     if text.find(CONF_LANGUAGE) == -1 and text.find(CONF_NUM_STRINGS) == -1:
         return None, None
@@ -71,7 +78,8 @@ def parse_header(text):
                 )
         else:
             raise HeaderException(
-                'Configuration not valid, found "{}", expected "{}" or "{}"'.format(key, CONF_LANGUAGE, CONF_NUM_STRINGS)
+                'Configuration not valid, found "{}", expected "{}" or "{}"'.format(key, CONF_LANGUAGE,
+                                                                                    CONF_NUM_STRINGS)
             )
 
     return language, num_strings
