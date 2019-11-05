@@ -71,6 +71,8 @@ def filter_cleaned_text(text_data, language=None):
 
 def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=True, num_line_check=None,
                    language=None):
+    """This function reads from a txt and produce a .mes and checks
+    if every control codes lies in the right position."""
     with open(path_mes, 'bw') as container, open(path_txt, "r", encoding=encoding) as f_text_data:
 
         binary_strings = []
@@ -81,7 +83,7 @@ def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=T
             if num_line_check and len(text_cleaned) != num_line_check:
                 raise MesInsertException(
                     'Found {} strings on this TXT, expected {}'.format(num_line_check, len(text_cleaned))
-                )
+                    )
             text_data = text_cleaned
 
         for line_number, line in enumerate(text_data):
@@ -107,6 +109,18 @@ def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=T
                             )
                         )
                 pos = 0
+
+                # This part is not very straightforward!
+                # The original text system used in the game was made for the
+                # Japanese language and uses 3 bytes for every ideogram/char.
+                # For the rest of the world the system was scaled down to 2
+                # bytes with some exceptions, check the table files for more
+                # information.
+                # If a control codes lies in an even position it will not be
+                # read correctly from the game, and we need to pad a byte
+                # with the space character. This is why, if you use the --raw
+                # mode, you will see a random space between control codes.
+
                 for idx, (value, hex_code) in enumerate(encoded_pairs):
                     if value == '<STRING-END>' and pos % 2 != 0 and encoded_pairs[idx + 1][0].startswith('<') and \
                             encoded_pairs[idx + 1][0].endswith('>'):
@@ -132,6 +146,10 @@ def pack_container(path_mes, path_txt, table, encoding="utf-8-sig", clean_mode=T
                     (len(string) + pointers[idx])
                 )
             )
+
+        # Once we have all the strings, we can write the .mes!
+        # There is no real header, just the number of the entries
+        # followed by the pointers halved for saving space
 
         pointers = [struct.pack('<H', int(data / 2)) for data in pointers]
         container.write(struct.pack('<H', len(binary_strings)))

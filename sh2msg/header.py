@@ -35,6 +35,7 @@ class HeaderException(Exception):
 
 
 def parse_header_from_file(path, encoding="utf-8-sig"):
+    """Function used for reading the header in txt files"""
     first_line = None
     with open(path, 'r', encoding=encoding) as text_file:
         first_line = text_file.readline()
@@ -42,6 +43,10 @@ def parse_header_from_file(path, encoding="utf-8-sig"):
 
 
 def parse_header(text):
+    """We put an header on the text files for making life easier
+    to the translator, we set the language and the number of the strings.
+    The tool will select the correct table and warn the user if the
+    number of the strings is different from the original file."""
     if text.find(CONF_LANGUAGE) == -1 and text.find(CONF_NUM_STRINGS) == -1:
         return None, None
 
@@ -74,16 +79,15 @@ def parse_header(text):
             else:
                 raise HeaderException('Value for language {} invalid expected one of the following: {}'.format(
                     value,
-                    ", ".join(all_languages.keys()))
-                )
+                    ", ".join(all_languages.keys())))
         else:
             raise HeaderException(
                 'Configuration not valid, found "{}", expected "{}" or "{}"'.format(key, CONF_LANGUAGE,
-                                                                                    CONF_NUM_STRINGS)
-            )
+                                                                                    CONF_NUM_STRINGS))
 
     return language, num_strings
 
 
 def make_header(language, num_strings):
+    """Generate the header for the txt file"""
     return "{} {}={} {}={}".format(COMMENT_FORMAT, CONF_NUM_STRINGS, num_strings, CONF_LANGUAGE, language)

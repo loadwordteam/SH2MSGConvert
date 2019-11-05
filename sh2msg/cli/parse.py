@@ -15,19 +15,21 @@
 #  along with sh2msg-convert.  If not, see <http://www.gnu.org/licenses/>.
 
 import argparse
+from sh2msg import VERSION_NUMBER, HOMEPAGE
 
-parser = argparse.ArgumentParser(description='Dump or insert data.')
+parser = argparse.ArgumentParser(description='sh2msg v{} - Dump or insert text for Silent Hill 2 .msg files'.format(VERSION_NUMBER),
+                                 epilog=HOMEPAGE)
 parser.add_argument('filename', metavar='FILE', type=str,
-                    help='Decode or encode a .mes or .txt file')
+                    help='Decode or encode a .mes or .txt file, file extensions is used to guess the file type')
 
 parser.add_argument('--output', '-o', dest='output', type=str,
-                    help='Define output file')
+                    help='Path for the destination file, if not provided writes in the source folder with the correct extension')
 
 parser.add_argument('--table', '-t', dest='table', type=str,
-                    help='Define alternate table file')
+                    help='Define an alternate table file from disk, useful for testing and development')
 
 parser.add_argument('--table-jap', '-j', dest='table_jap', action='store_true',
-                    help='Force to use the Japanese table, usually autodetect it.')
+                    help='Force to use the Japanese table, otherwise automatically select the correct one')
 
 parser.add_argument('--raw-mode', '-r', dest='raw_mode', action='store_true',
-                    help="Read and write without cleaning or escaping the text.")
+                    help="Read and write without cleaning or escaping the text")

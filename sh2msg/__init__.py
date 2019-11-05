@@ -22,7 +22,6 @@ from sh2msg.table import parse_table
 from sh2msg.mes_format import check_mes_structure
 
 from sh2msg.table import TableException
-from sh2msg.mes_format import MesFormatException
 from sh2msg.mes_format import MesNotValid
 
 from sh2msg.dump import dump_container, read_container, filter_clean_dump
@@ -30,4 +29,5 @@ from sh2msg.insert import pack_container, filter_cleaned_text
 
 from sh2msg import header
 
-VERSION_NUMBER = '1.4'
+VERSION_NUMBER = '1.5'
+HOMEPAGE = 'Report bugs to: http://tiovictor.romhackhispano.org'

@@ -27,6 +27,9 @@ class MesDumpException(Exception):
 
 
 def filter_clean_dump(strings, num_strings=None, language=None):
+    """In clean mode the translator doesn't have to deal with every
+    the control code for the text flow. A cleaner txt file is
+    produced with nice separators for the strings."""
     output = []
 
     if num_strings or language:
@@ -57,6 +60,7 @@ def filter_clean_dump(strings, num_strings=None, language=None):
 
 
 def read_container(path, table={}):
+    """Read the .mes file"""
     path = pathlib.Path(path)
     if not path.is_file():
         raise MesDumpException('Cannot read {}'.format(path.resolve()))
@@ -98,6 +102,7 @@ def read_container(path, table={}):
 
 
 def dump_container(path_mes, out_txt, encoding="utf-8-sig", table={}, clean_mode=True):
+    """Dump the content of a .mes file to a .txt"""
     language, num_strings, strings = read_container(path_mes, table=table)
 
     if clean_mode:

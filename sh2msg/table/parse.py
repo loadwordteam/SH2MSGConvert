@@ -28,7 +28,8 @@ class TableException(Exception):
 
 
 def parse_table(table_string, flip=False):
-    """Read the a Thinghy table style text file"""
+    """Read the a Thinghy table style text file. Bigger byte codes have
+    the priority over smaller code."""
     char_map = {}
     for number, line in enumerate(table_string.splitlines()):
         if line.strip():
@@ -73,6 +74,7 @@ def parse_table(table_string, flip=False):
 
 
 def read_table_file(path, flip=False, encoding="utf-8-sig"):
+    """Read the table from a file"""
     table_string = ''
     with io.open(path, mode="r", encoding=encoding) as table:
         table_string = table.read()
@@ -81,6 +83,7 @@ def read_table_file(path, flip=False, encoding="utf-8-sig"):
 
 
 def load_default_table(flip=False, encoding="utf-8-sig", language=None):
+    """Load the Japanese or the default table used for the western languages"""
     language = language or SUPPORTED_LANGUAGES['_e']
     return read_table_file(
         JAP_TABLE_PATH if language[0] == 'japanese' else DEFAULT_TABLE_PATH,
@@ -90,10 +93,13 @@ def load_default_table(flip=False, encoding="utf-8-sig", language=None):
 
 
 def load_jap_table(flip=False, encoding="utf-8-sig"):
+    """Shorthand for loading the Japanese table"""
     return read_table_file(JAP_TABLE_PATH, flip=flip, encoding=encoding)
 
 
 def get_language_from_path(path):
+    """Since files in the game ends with _e, _i, _s, etc.
+    We can load the correct table by knowing the filename."""
     path = pathlib.Path(path)
     if path.stem[-2:] in SUPPORTED_LANGUAGES.keys():
         return SUPPORTED_LANGUAGES[path.stem[-2:]]

@@ -21,26 +21,24 @@ import os
 MAX_MES_SIZE = 1024 * 1024
 
 
-class MesFormatException(Exception):
-    pass
-
-
-class MesNotValid(MesFormatException):
+class MesNotValid(Exception):
     pass
 
 
 def check_mes_structure(mes_filename):
+    """Runs some empirical checks on the .mes format, we can't rely just
+    on the filename, we meed to check the structure."""
     mes_path = pathlib.Path(mes_filename)
 
     if not mes_path.is_file():
-        raise MesFormatException('file {} does not exist'.format(mes_path.resolve()))
+        raise MesNotValid('file {} does not exist'.format(mes_path.resolve()))
 
     filesize = mes_path.stat().st_size
     if filesize > MAX_MES_SIZE:
-        raise MesFormatException('file {} is too big (> 1MB)'.format(mes_path.resolve()))
+        raise MesNotValid('file {} is too big (> 1MB)'.format(mes_path.resolve()))
 
     if filesize < 6:
-        raise MesFormatException(
+        raise MesNotValid(
             'file {} is too small only {} bytes'.format(mes_path.resolve(), mes_path.stat().st_size))
 
     with mes_path.open(mode='rb') as container:
