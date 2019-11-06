@@ -1,4 +1,4 @@
-# sh2msg convert
+# sh2msg tool
 
 This tool helps with the translation of Silent Hill 2 game.
 
@@ -74,7 +74,12 @@ There is a list of knows codes the source repository in
 
 ### Newlines and new pages
 
-You can place a newline 
+In the previous example, can you see the tabs in the beginning of the
+line? If a line starts with a TAB the tool will place a NEWLINE code
+in the game files!
+
+If you place an empty line, you will have a NEWPAGE. It's recommended
+to use a text editor where tabs and space are highlight.
 
 ### Raw mode
 
