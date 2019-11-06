@@ -1,27 +1,91 @@
 # sh2msg convert
-This tool is for dumping and inserting text for the game Silent Hill 2.
 
-## Requirements
-For running from the source you need python >= 3.4
+This tool helps with the translation of Silent Hill 2 game.
 
-## Usage
+It has been created to be compatible with Japanese and EFGIS files, you
+can fine control the text flow and this tool doesn't hide anything to
+the translator.
 
-Download the source and type
+You can download the last version of this program at [insert url here]
+
+## Installation and requirements
+
+You can download the binaries for windows and GNU/Linux, if you are
+going to use the source code directly, you need Python >= 3.4
+installed.
+
+You can download the last version of Python 3 at https://www.python.org/
+
+### Run the program
+
+This is a command line only program, you need to run it inside
+*Command Prompt* (or *PowerShell*) in Windows. You can use the
+executable, but in case you want to go with the source code, you can
+run it by typing:
 
 ```bash
 python3 -m sh2msg
 ```
 
-### Options
+Some Python 3 installations have *python* as name of the interpreter.
+
+## Usage
+
+As mentioned before, this is a command line only program, you need to
+be able to navigate your file-system and call the program.
+
+You can dump the content of a .mes file into text by typing:
+
+```bash
+sh2msg common_msg_e.mes
+```
+
+the tool will detect the language from the filename and create a
+*common_msg_e.txt* file.
+
+### Text files explained
+
+The text will look something like this:
 
 ```
-usage: sh2msg [-h] [--output OUTPUT] [--table TABLE] FILE
+--------------- strings=42 language=english
+---------------
+Nice tool!
+        Yeah I can finally edit the strings without pain...<SEPARATORB>
+---------------
+We should build a statue.
+        You are right...<SEPARATORB>
+---------------
+It's too dark to tell for sure, but I
+        think there's something on the
+[...more text...]
 ```
+
+The first line is the *header* and should not be touched by the
+translator, it's used by the tool for checking the results of the
+final .mes file.
+
+Every string is separated by 15 dashes, inside a string we might have
+some control codes like `<SEPARATORB>`. You need to keep those codes
+in other to make the translation work.
+
+There is a list of knows codes the source repository in
+`sh2msg/table/data`.
+
+### Newlines and new pages
+
+You can place a newline 
+
+### Raw mode
+
+You can dump and insert in RAW mode, the text file produces contains a
+string for every line and every char is inserted into a .mes file
+without any check. Use this mode carefully.
 
 ## Changelog
 
-This program is still in beta, you can use it but be sure you 
-have backups!
+1.5 Better error handling
+1.0 Internal first release
 
 ## Copyright
 
