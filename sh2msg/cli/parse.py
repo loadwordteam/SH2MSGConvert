@@ -17,10 +17,10 @@
 import argparse
 from sh2msg import VERSION_NUMBER, HOMEPAGE
 
-parser = argparse.ArgumentParser(description='sh2msg v{} - Dump or insert text for Silent Hill 2 .msg files'.format(VERSION_NUMBER),
+parser = argparse.ArgumentParser(description='sh2msg v{} - Silent Hill 2 .msg files dumper/importer'.format(VERSION_NUMBER),
                                  epilog=HOMEPAGE)
 parser.add_argument('filename', metavar='FILE', type=str,
-                    help='Decode or encode a .mes or .txt file, file extensions is used to guess the file type')
+                    help='Decode or encode a .mes or .txt file, file extensions are used to guess the file type')
 
 parser.add_argument('--output', '-o', dest='output', type=str,
                     help='Path for the destination file, if not provided writes in the source folder with the correct extension')

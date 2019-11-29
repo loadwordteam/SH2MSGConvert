@@ -28,7 +28,7 @@ with open('COPYING') as f:
 setup(
     name='sh2msg',
     version=VERSION_NUMBER,
-    description='sh2msg-convert is for editing text files for Silent Hill 2 game',
+    description='sh2msg-convert is a text conversion tool for Silent Hill 2',
     long_description=readme,
     author='Gianluigi "Infrid" Cusimano, Víctor "IlDucci" González',
     author_email='infrid@infrid.com',

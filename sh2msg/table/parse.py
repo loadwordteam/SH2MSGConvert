@@ -28,7 +28,7 @@ class TableException(Exception):
 
 
 def parse_table(table_string, flip=False):
-    """Read the a Thinghy table style text file. Bigger byte codes have
+    """Read the a Thingy table style text file. Bigger byte codes have
     the priority over smaller code."""
     char_map = {}
     for number, line in enumerate(table_string.splitlines()):
