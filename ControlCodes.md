@@ -4,7 +4,7 @@ This document includes all the information we have gathered regarding
 the Silent Hill 2's control codes and whether if they are simplified
 or transformed by the sh2msg-convert tool.
 
-## "-LE>`" suffix
+## "`-LE>`" suffix
 The control code's byte endianess is swapped between the Western and
 Japanese modes. Therefore, the entries for both modes are different.
 Be aware of this if you're porting texts from the Japanese mode to
