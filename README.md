@@ -78,8 +78,9 @@ Some strings contain control codes, like `<SEPARATORB>`,
 `<VARIABLE-01>`, etc. You need to keep those codes in order to avoid
 any unwanted issues during the game.
 
-There is a list of known control codes in the source repository, at
-`sh2msg/table/data`.
+For more information on the known control codes, you can either check
+the source repository at `sh2msg/table/data` or the Control Codes
+document located in `ControlCodes.md`.
 
 ### Newlines and new pages
 
