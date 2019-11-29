@@ -20,6 +20,7 @@ from sh2msg import COMMENT_FORMAT
 
 SUPPORTED_LANGUAGES = {
     '_e': ['english', 'en'],
+    '_s': ['spanish', 'es'],
     '_f': ['french', 'fr'],
     '_g': ['german', 'de'],
     '_i': ['italian', 'it'],
