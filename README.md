@@ -80,7 +80,7 @@ any unwanted issues during the game.
 
 For more information on the known control codes, you can either check
 the source repository at `sh2msg/table/data` or the Control Codes
-document located in `ControlCodes.md`.
+document located in [ControlCodes.md].
 
 ### Newlines and new pages
 
