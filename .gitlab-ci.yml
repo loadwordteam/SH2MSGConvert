@@ -18,7 +18,7 @@ linux-amd64:
     - mv dist sh2msg-linux-amd64
 
 sh2msg-win-amd64:
-  image: ubuntu:19.04
+  image: debian:stable
   stage: build
   artifacts:
     name: "${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA:0:8}-windows-i386"
