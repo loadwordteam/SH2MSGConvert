@@ -67,4 +67,4 @@ if __name__ == '__main__':
     except MesDumpException as exp:
         print('[ERROR Dump .mes] {}'.format(exp), file=sys.stderr)
     except Exception as exp:
-        print('[ERROR] {}'.format(exp), file=sys.stderr)
+        print('[UNEXPECTED ERROR] {}'.format(exp), file=sys.stderr)
