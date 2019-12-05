@@ -28,7 +28,7 @@ sh2msg-win-amd64:
     - apt-get update -y
     - dpkg --add-architecture i386
     - apt update
-    - apt-get install wine-stable wine32 wget xvfb -y
+    - apt-get install xvfb wine wine32 wine64 libwine libwine:i386 fonts-wine -y
     - wget https://www.python.org/ftp/python/3.7.4/python-3.7.4-amd64.exe
     - wineboot -u
     - wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
