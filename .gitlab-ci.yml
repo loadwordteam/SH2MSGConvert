@@ -34,7 +34,7 @@ sh2msg-win-amd64:
     - wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
     - chmod +x winetricks
     - sh winetricks win7
-    - wine python-3.7.4-amd64.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0 TargetDir=c:\Python374
+    - xvfb-run wine python-3.7.4-amd64.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0 TargetDir=c:\Python374
     - wine C:/Python374/python.exe -m ensurepip --upgrade
     - wine C:/Python374/python.exe -m pip install pyinstaller
     - wine C:/Python374/scripts/pyinstaller.exe sh2msg.spec
