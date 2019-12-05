@@ -21,7 +21,7 @@ sh2msg-win-amd64:
   image: debian:stable
   stage: build
   artifacts:
-    name: "${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA:0:8}-windows-i386"
+    name: "${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA:0:8}-windows-amd64"
     paths:
       - sh2msg-win-amd64/*
   script:
