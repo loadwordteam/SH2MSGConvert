@@ -15,6 +15,7 @@ linux-amd64:
     - pyinstaller sh2msg.spec
     - cp README.md dist/
     - cp COPYING dist/
+    - cp ControlCodes.md dist/
     - mv dist sh2msg-linux-amd64
 
 sh2msg-win-amd64:
@@ -40,4 +41,5 @@ sh2msg-win-amd64:
     - wine C:/Python374/scripts/pyinstaller.exe -F sh2msg.spec
     - cp README.md dist/
     - cp COPYING dist/
+    - cp ControlCodes.md dist/
     - mv dist sh2msg-win-amd64
