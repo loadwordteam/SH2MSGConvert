@@ -16,8 +16,19 @@
 
 import os
 
-DEFAULT_TABLE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data', 'table.txt'))
-JAP_TABLE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data', 'tableJAP.txt'))
+import sys
+from pathlib import Path
+
+basedir = None
+
+# fix for windows build
+if getattr(sys, 'frozen', False):
+    basedir = Path(sys._MEIPASS).joinpath('sh2msg', 'table')
+else:
+    basedir = Path(__file__).parent
+
+DEFAULT_TABLE_PATH = basedir.joinpath('data', 'table.txt').resolve()
+JAP_TABLE_PATH = basedir.joinpath('data', 'tableJAP.txt').resolve()
 
 from sh2msg.table.parse import TableException
 from sh2msg.table.parse import parse_table

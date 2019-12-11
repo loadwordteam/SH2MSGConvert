@@ -109,7 +109,10 @@ with care.
 
 ## Changelog
 
-1.5 - Better error handling.  
+1.5.1 - Fix Windows build for Win7/8.1
+
+1.5 - Better error handling.
+
 1.0 - Internal first release.
 
 ## Copyright

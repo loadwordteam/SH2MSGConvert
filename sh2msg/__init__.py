@@ -29,5 +29,5 @@ from sh2msg.insert import pack_container, filter_cleaned_text
 
 from sh2msg import header
 
-VERSION_NUMBER = '1.5'
+VERSION_NUMBER = '1.5.1'
 HOMEPAGE = 'Report bugs to: http://tiovictor.romhackhispano.org'
