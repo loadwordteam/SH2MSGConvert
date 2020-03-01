@@ -43,6 +43,28 @@ sh2msg common_msg_e.mes
 the tool will detect the language from the filename and create a
 *common_msg_e.txt* file.
 
+You can run the tool against multiple files too:
+
+```bash
+sh2msg common_msg_e.mes stage_apart_stair_msg_e.mes
+```
+
+if you shell supports glob expansion:
+
+```bash
+sh2msg *.mes
+```
+
+### Load external symbol table
+
+You can load the symbol table from an external file. You might want to
+use this feature if your language cannot be expressed using the game's
+default charter set.
+
+```bash
+sh2msg common_msg_e.mes --table turkish_table.txt
+```
+
 ### Text files explained
 
 The text will look something like this:
@@ -89,7 +111,10 @@ without any check. Use this mode carefully.
 
 ## Changelog
 
+1.6 Accept multiple files as input, bugfix on external tables
+
 1.5 Better error handling
+
 1.0 Internal first release
 
 ## Copyright

@@ -75,11 +75,25 @@ def parse_table(table_string, flip=False):
 
 def read_table_file(path, flip=False, encoding="utf-8-sig"):
     """Read the table from a file"""
-    table_string = ''
-    with io.open(path, mode="r", encoding=encoding) as table:
-        table_string = table.read()
+    cache_key = hash("{}{}{}".format(path, flip, encoding))
+    table_value = None
+    try:
+        table_value = read_table_file.cache.get(cache_key, None)
+        if not table_value:
+            table_string = ''
+            with io.open(path, mode="r", encoding=encoding) as table:
+                table_string = table.read()
 
-    return parse_table(table_string, flip=flip)
+            table_value = parse_table(table_string, flip=flip)
+            read_table_file.cache[cache_key] = table_value
+
+    except AttributeError:
+        read_table_file.cache = {}
+        return read_table_file(path, flip, encoding)
+
+    return table_value
+
+read_table_file.cache = {}
 
 
 def load_default_table(flip=False, encoding="utf-8-sig", language=None):

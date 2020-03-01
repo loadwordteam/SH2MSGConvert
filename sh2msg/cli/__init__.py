@@ -15,3 +15,4 @@
 #  along with sh2msg-convert.  If not, see <http://www.gnu.org/licenses/>.
 
 from sh2msg.cli.parse import parser
+from sh2msg.cli.parse import read_file_list

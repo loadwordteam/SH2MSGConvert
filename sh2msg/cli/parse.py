@@ -17,10 +17,23 @@
 import argparse
 from sh2msg import VERSION_NUMBER, HOMEPAGE
 
-parser = argparse.ArgumentParser(description='sh2msg v{} - Dump or insert text for Silent Hill 2 .msg files'.format(VERSION_NUMBER),
-                                 epilog=HOMEPAGE)
-parser.add_argument('filename', metavar='FILE', type=str,
-                    help='Decode or encode a .mes or .txt file, file extensions is used to guess the file type')
+
+def read_file_list(path_list, encoding="utf-8-sig"):
+    file_list = None
+    with open(path_list, "r", encoding=encoding) as f_list_data:
+        file_list = [f.strip() for f in f_list_data.readlines() if f.strip()]
+    return file_list
+
+
+parser = argparse.ArgumentParser(
+    description='sh2msg v{} - Dump or insert text for Silent Hill 2 .msg files'.format(VERSION_NUMBER),
+    epilog=HOMEPAGE)
+group = parser.add_mutually_exclusive_group(required=True)
+group.add_argument('files', metavar='FILE', type=str, nargs='*', default=[],
+                   help='Decode or encode a .mes or .txt file, file extensions is used to guess the file type')
+
+group.add_argument('--file-list', '-l', dest='file_list', type=str,
+                   help='Process a files contained in a list')
 
 parser.add_argument('--output', '-o', dest='output', type=str,
                     help='Path for the destination file, if not provided writes in the source folder with the correct extension')
