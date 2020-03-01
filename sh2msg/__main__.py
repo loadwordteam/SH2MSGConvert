@@ -34,7 +34,7 @@ if __name__ == '__main__':
         if args.output and len(args.files) > 1:
             out_base_dir = pathlib.Path(args.output)
             if out_base_dir.suffix == '.txt' or out_base_dir.suffix == '.mes':
-                raise Exception("You cannot write multiple file into the same output file")
+                raise Exception("You cannot write multiple input files into the same output file")
             if not out_base_dir.is_dir():
                 raise Exception("When you provide multiple files as input, you must create the output directory '{}' first".format(out_base_dir.resolve()))
 

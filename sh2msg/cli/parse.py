@@ -26,23 +26,23 @@ def read_file_list(path_list, encoding="utf-8-sig"):
 
 
 parser = argparse.ArgumentParser(
-    description='sh2msg v{} - Dump or insert text for Silent Hill 2 .msg files'.format(VERSION_NUMBER),
+    description='sh2msg v{} - Dump or insert text for Silent Hill 2 .mes files'.format(VERSION_NUMBER),
     epilog=HOMEPAGE)
 group = parser.add_mutually_exclusive_group(required=True)
 group.add_argument('files', metavar='FILE', type=str, nargs='*', default=[],
-                   help='Decode or encode a .mes or .txt file, file extensions is used to guess the file type')
+                   help='Decode a .mes file or encode a .txt file. The file extension will be used to guess the file type.')
 
 group.add_argument('--file-list', '-l', dest='file_list', type=str,
-                   help='Process a files contained in a list')
+                   help='Process a set of files contained in a list.')
 
 parser.add_argument('--output', '-o', dest='output', type=str,
-                    help='Path for the destination file, if not provided writes in the source folder with the correct extension')
+                    help='Path for the destination file. In case it is not provided, the tool will use the source folder and change extensions accordingly.')
 
 parser.add_argument('--table', '-t', dest='table', type=str,
-                    help='Define an alternate table file from disk, useful for testing and development')
+                    help='Define an alternate table file from disk. Useful for testing, development and usage for any non-EFIGS languages.')
 
 parser.add_argument('--table-jap', '-j', dest='table_jap', action='store_true',
-                    help='Force to use the Japanese table, otherwise automatically select the correct one')
+                    help='Forces the Japanese table as the character encoding table, otherwise the tool will automatically select the correct one.')
 
 parser.add_argument('--raw-mode', '-r', dest='raw_mode', action='store_true',
-                    help="Read and write without cleaning or escaping the text")
+                    help="Read and write without cleaning or escaping the text.")
