@@ -1,4 +1,4 @@
-[![Docker Repository on Quay](https://quay.io/repository/loadwordteam/SH2MSGConvert/status "Docker Repository on Quay")](https://quay.io/repository/loadwordteam/SH2MSGConvert)
+[![Docker Repository on Quay](https://quay.io/repository/loadwordteam/sh2msgconvert/status "Docker Repository on Quay")](https://quay.io/repository/loadwordteam/sh2msgconvert)
 # sh2msg tool
 
 This tool is designed to convert back and forth the .mes files from
