@@ -20,7 +20,7 @@ import pathlib
 import string
 
 from sh2msg.header import SUPPORTED_LANGUAGES
-from sh2msg.table import DEFAULT_TABLE_PATH, JAP_TABLE_PATH
+from sh2msg.table import DEFAULT_TABLE_PATH, JPN_TABLE_PATH
 
 
 class TableException(Exception):
@@ -100,15 +100,15 @@ def load_default_table(flip=False, encoding="utf-8-sig", language=None):
     """Load the Japanese or the default table used for the western languages"""
     language = language or SUPPORTED_LANGUAGES['_e']
     return read_table_file(
-        JAP_TABLE_PATH if language[0] == 'japanese' else DEFAULT_TABLE_PATH,
+        JPN_TABLE_PATH if language[0] == 'japanese' else DEFAULT_TABLE_PATH,
         flip=flip,
         encoding=encoding
     )
 
 
-def load_jap_table(flip=False, encoding="utf-8-sig"):
+def load_jpn_table(flip=False, encoding="utf-8-sig"):
     """Shorthand for loading the Japanese table"""
-    return read_table_file(JAP_TABLE_PATH, flip=flip, encoding=encoding)
+    return read_table_file(JPN_TABLE_PATH, flip=flip, encoding=encoding)
 
 
 def get_language_from_path(path):

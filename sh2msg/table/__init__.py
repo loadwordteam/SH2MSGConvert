@@ -28,11 +28,11 @@ else:
     basedir = Path(__file__).parent
 
 DEFAULT_TABLE_PATH = basedir.joinpath('data', 'table.txt').resolve()
-JAP_TABLE_PATH = basedir.joinpath('data', 'tableJAP.txt').resolve()
+JPN_TABLE_PATH = basedir.joinpath('data', 'tableJPN.txt').resolve()
 
 from sh2msg.table.parse import TableException
 from sh2msg.table.parse import parse_table
 from sh2msg.table.parse import read_table_file
 from sh2msg.table.parse import load_default_table
-from sh2msg.table.parse import load_jap_table
+from sh2msg.table.parse import load_jpn_table
 from sh2msg.table.parse import get_language_from_path

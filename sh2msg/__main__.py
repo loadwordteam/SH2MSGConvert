@@ -53,8 +53,8 @@ if __name__ == '__main__':
                 out_path = out_base_dir.joinpath(message.name)
 
             if args.table is None:
-                if args.table_jap:
-                    table = sh2msg.table.load_jap_table(flip=flip)
+                if args.table_jpn:
+                    table = sh2msg.table.load_jpn_table(flip=flip)
                 else:
                     language = get_language_from_path(message)
                     table = sh2msg.table.load_default_table(flip=flip, language=language)

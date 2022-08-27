@@ -41,7 +41,7 @@ parser.add_argument('--output', '-o', dest='output', type=str,
 parser.add_argument('--table', '-t', dest='table', type=str,
                     help='Define an alternate table file from disk. Useful for testing, development and usage for any non-EFIGS languages.')
 
-parser.add_argument('--table-jap', '-j', dest='table_jap', action='store_true',
+parser.add_argument('--table-jpn', '-j', dest='table_jpn', action='store_true',
                     help='Forces the Japanese table as the character encoding table, otherwise the tool will automatically select the correct one.')
 
 parser.add_argument('--raw-mode', '-r', dest='raw_mode', action='store_true',
