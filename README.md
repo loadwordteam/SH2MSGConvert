@@ -132,6 +132,8 @@ with care.
 
 ## Changelog
 
+1.7 Braking change on `--table-jap`, in case you didn't know the term _Jap_ is an ethnic slur, you can read more about it on [Wikipedia](https://en.wikipedia.org/wiki/Jap). Now the switch has been changed to `--table-jpn`.
+
 1.6 Accept multiple files as input, bugfix on external tables
 
 1.5 Better error handling
