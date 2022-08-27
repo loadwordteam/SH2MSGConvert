@@ -1,3 +1,4 @@
+[![Docker Repository on Quay](https://quay.io/repository/loadwordteam/SH2MSGConvert/status "Docker Repository on Quay")](https://quay.io/repository/loadwordteam/SH2MSGConvert)
 # sh2msg tool
 
 This tool is designed to convert back and forth the .mes files from
@@ -155,3 +156,13 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+## Contacts
+
+Gianluigi "Infrid" Cusimano <infrid@infrid.com>
+
+https://loadwordteam.com/
+
+[![a project by load word team](https://loadwordteam.com/logo-lwt-small.png "a project by load word team")](https://loadwordteam.com)
+
