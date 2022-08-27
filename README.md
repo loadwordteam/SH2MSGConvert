@@ -11,7 +11,7 @@ one allows for precise control of the text flow and doesn't hide
 anything to the translator, leaving most of the control and possible
 text bug solving to them.
 
-You can download the last version of this program at <https://gitlab.com/sh2msgconvert/sh2msgconvert/-/releases>
+You can download the last version of this program at <https://github.com/loadwordteam/SH2MSGConvert/releases>
 
 ## Installation and requirements
 
