@@ -21,7 +21,7 @@ jobs:
           path: dist
 
   linux-binary:
-    runs-on: python3.10-bullseye
+    runs-on: python:3.10-bullseye
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
