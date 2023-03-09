@@ -63,13 +63,25 @@ sh2msg *.mes
 
 ### Load an external character table
 
-You can load the character table from an external file. You might want 
-to use this feature if your language uses characters that are not
+You can load the character table from an external file. You will find 
+this feature useful if your language uses characters that are not
 within the game's default set.
+
+Make sure you have already modified the game's font within the executable file 
+(or, in the case of the Enhanced Edition, have the edited texture with the new 
+characters) before changing the character table. You will need to have both 
+the table and the font ready to be able to see new characters for your language.
 
 ```bash
 sh2msg common_msg_e.mes --table turkish_table.txt
 ```
+
+You can find tables that you can use as a base for your translation efforts
+[in the table/data folder](sh2msg/table/data).
+
+Keep in mind that if you want to translate to Asian or languages that require 
+the extended Japanese sheet, you will need to use the [tableJPN.tbl](sh2msg/table/data/tableJPN.tbl) 
+file instead of the regular one.
 
 ### Text files explanation
 
