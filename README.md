@@ -80,7 +80,7 @@ You can find tables that you can use as a base for your translation efforts
 [in the table/data folder](sh2msg/table/data).
 
 Keep in mind that if you want to translate to Asian or languages that require 
-the extended Japanese sheet, you will need to use the [tableJPN.tbl](sh2msg/table/data/tableJPN.txt) 
+the extended Japanese sheet, you will need to use the [tableJPN.txt](sh2msg/table/data/tableJPN.txt) 
 file instead of the regular one.
 
 ### Text files explanation
